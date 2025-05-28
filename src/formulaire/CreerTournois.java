@@ -16,6 +16,7 @@ public class CreerTournois extends javax.swing.JFrame {
     public CreerTournois() {
         initComponents();
         System.out.println("TEST BOY");
+        System.out.println("SAallluutt");
         
     }
 
