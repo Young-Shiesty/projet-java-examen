@@ -88,7 +88,7 @@ public class Connexion extends javax.swing.JFrame {
         });
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulaire/backgroung_noir5.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\gaye_\\Documents\\NetBeansProjects\\projet-java-examen2\\src\\img\\backgroung_noir5.jpg")); // NOI18N
         jLabel5.setText("jLabel5");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
