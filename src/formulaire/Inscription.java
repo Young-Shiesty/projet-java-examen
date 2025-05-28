@@ -111,7 +111,7 @@ public class Inscription extends javax.swing.JFrame {
         password_tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel7.setBackground(new java.awt.Color(0, 51, 51));
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\gaye_\\Desktop\\Projet java\\backgroung_noir5.jpg")); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\gaye_\\Documents\\NetBeansProjects\\projet-java-examen2\\img\\backgroung_noir5.jpg")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
