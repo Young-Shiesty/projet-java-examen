@@ -4,6 +4,14 @@
  */
 package formulaire;
 
+import dao.UtilisateurDao;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import models.Utilisateur;
+import utils.UtilsFonction;
+
 /**
  *
  * @author gaye_
@@ -30,8 +38,8 @@ public class Connexion extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        username_tf = new javax.swing.JTextField();
-        password_tf = new javax.swing.JPasswordField();
+        username_con = new javax.swing.JTextField();
+        password_con = new javax.swing.JPasswordField();
         connexion_con = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         inscription_btn = new javax.swing.JButton();
@@ -56,11 +64,11 @@ public class Connexion extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Username");
 
-        username_tf.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        username_tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        username_con.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        username_con.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        password_tf.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        password_tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        password_con.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        password_con.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         connexion_con.setBackground(new java.awt.Color(121, 17, 54));
         connexion_con.setFont(new java.awt.Font("Viner Hand ITC", 1, 14)); // NOI18N
@@ -97,7 +105,7 @@ public class Connexion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(password_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(password_con, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(91, 91, 91)
@@ -108,7 +116,7 @@ public class Connexion extends javax.swing.JFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(6, 6, 6)
-                                    .addComponent(username_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(username_con, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,8 +126,8 @@ public class Connexion extends javax.swing.JFrame {
                             .addGap(40, 40, 40)
                             .addComponent(connexion_con))))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 402, Short.MAX_VALUE)
+                .addGap(8, 8, 8))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,11 +137,11 @@ public class Connexion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(username_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(username_con, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(password_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(password_con, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(connexion_con, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
@@ -152,8 +160,8 @@ public class Connexion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,12 +176,57 @@ public class Connexion extends javax.swing.JFrame {
         
                                                     
 
-        
+       
+        // TODO add your handling code here:
+        String username = username_con.getText().trim();
+        String passsword = password_con.getText().trim();
+        if (!username.isEmpty() && !passsword.isEmpty()) {
+
+            Utilisateur user;
+            try {
+                
+                user = UtilisateurDao.getUserByPasswordAndUsername(username);
+                
+                
+                if (user != null) {
+                    
+                    if (passsword.equals(UtilsFonction.decrypt(user.getPassword())) && username.equals(user.getUsername())) {
+                        System.out.println("id :"+user.getId());
+                        JOptionPane.showMessageDialog(this, "connexionreussi");
+                        this.setVisible(false);
+                        
+//                        new Dashbord(user).setVisible(true);
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "login/password incorecte");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Cet utilisateur n'existe pas");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "remplir le champ username ");
+            }
+            if (passsword.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "remplir le champ password");
+
+            }
+            if (username.isEmpty() && passsword.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "remplir tout les champs  ");
+            }
+
+    }                                             
         
     }//GEN-LAST:event_connexion_conActionPerformed
 
     private void inscription_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inscription_btnActionPerformed
         // TODO add your handling code here:
+        new Inscription().setVisible(false);
         this.setVisible(false);
         new Inscription().setVisible(true);
         
@@ -224,7 +277,7 @@ public class Connexion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField password_tf;
-    private javax.swing.JTextField username_tf;
+    private javax.swing.JPasswordField password_con;
+    private javax.swing.JTextField username_con;
     // End of variables declaration//GEN-END:variables
 }

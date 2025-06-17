@@ -370,7 +370,7 @@ public class CreerTournois extends javax.swing.JFrame {
             int k=pst.executeUpdate();
             
              if(k==1){
-                JOptionPane.showMessageDialog(this, "Record added succesfully");
+                JOptionPane.showMessageDialog(this, "Record added succesfully");   
                 txtName.setText("");
                 txtGame.setSelectedItem("");
 //                txtDateDebut.setDatoFecha();
