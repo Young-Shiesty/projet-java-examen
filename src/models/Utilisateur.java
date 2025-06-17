@@ -14,6 +14,15 @@ public class Utilisateur {
     private String prenom;
     private String username;
     private String password;
+    private long role_id;
+
+    public long getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(long role_id) {
+        this.role_id = role_id;
+    }
 
     
     
@@ -26,12 +35,13 @@ public class Utilisateur {
        
     }
 
-    public Utilisateur(long id, String nom, String prenom, String username, String password) {
+    public Utilisateur(long id, String nom, String prenom, String username, String password,long role_id ) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.username = username;
         this.password = password;
+        this.role_id = role_id;
        
     }
     public long getId() {

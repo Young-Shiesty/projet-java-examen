@@ -19,7 +19,7 @@ public class UtilisateurDao {
     }
 
     private static Utilisateur ConvertirResultSetToUser(ResultSet rs) throws SQLException, ClassNotFoundException {
-        return new Utilisateur(rs.getLong("id"), rs.getString("nom"),rs.getString("prenom"),rs.getString("username"),rs.getString("password"));
+        return new Utilisateur(rs.getLong("id"), rs.getString("nom"),rs.getString("prenom"),rs.getString("username"),rs.getString("password"),rs.getLong("role_id"));
 
     }
 
@@ -29,6 +29,7 @@ public class UtilisateurDao {
         if (rs.next()) {
 
             return ConvertirResultSetToUser(rs);
+            
 
         }
         return null;
