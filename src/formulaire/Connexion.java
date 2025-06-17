@@ -183,6 +183,8 @@ public class Connexion extends javax.swing.JFrame {
         if (!username.isEmpty() && !passsword.isEmpty()) {
 
             Utilisateur user;
+            
+            
             try {
                 
                 user = UtilisateurDao.getUserByPasswordAndUsername(username);
@@ -227,9 +229,12 @@ public class Connexion extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "remplir tout les champs  ");
             }
 
-    }                                             
+    }      
+        
+
         
     }//GEN-LAST:event_connexion_conActionPerformed
+
 
     private void inscription_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inscription_btnActionPerformed
         // TODO add your handling code here:

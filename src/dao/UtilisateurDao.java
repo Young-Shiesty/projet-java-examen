@@ -17,12 +17,12 @@ public class UtilisateurDao {
         user.setId(idinserted);
         return user;
     }
-
+    
     private static Utilisateur ConvertirResultSetToUser(ResultSet rs) throws SQLException, ClassNotFoundException {
         return new Utilisateur(rs.getLong("id"), rs.getString("nom"),rs.getString("prenom"),rs.getString("username"),rs.getString("password"),rs.getLong("role_id"));
 
     }
-
+    
     public static Utilisateur getUserByPasswordAndUsername(String username) throws SQLException, ClassNotFoundException {
 
         ResultSet rs = DatabaseService.executeQuery(SQL_Connexion, username);

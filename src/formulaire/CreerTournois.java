@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import models.Utilisateur;
+import dao.UtilisateurDao;
+
 
 /**
  *
@@ -347,9 +350,12 @@ public class CreerTournois extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceActionPerformed
 
+    
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-         
+          Utilisateur user;
+        
         try {
+            
             String name=txtName.getText();
             String game=txtGame.getSelectedItem().toString();
             String datedebut=txtDateDebut.getDatoFecha().toString();
@@ -357,7 +363,6 @@ public class CreerTournois extends javax.swing.JFrame {
             String player=txtPlayer.getText();
             String fraisinscription=txtFraisInscription.getText();
             String price=txtPrice.getText();
-            
             pst = con.prepareStatement("INSERT INTO tournois (nom,type_jeux,datedebut,datefin,nombrejoueur,fraisinscription,recompense) VALUES(?,?,?,?,?,?,?)");
             pst.setString(1,name);
             pst.setString(2,game);
