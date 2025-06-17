@@ -4,6 +4,14 @@
  */
 package formulaire;
 
+import dao.UtilisateurDao;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import models.Utilisateur;
+import utils.UtilsFonction;
+
 
 
 /**
@@ -19,7 +27,21 @@ public class Inscription extends javax.swing.JFrame {
         initComponents();
     }
     
-    
+     private boolean Validdatainformulaire() {
+        String nom = nom_tf.getText().trim();
+        String prenom = prenom_tf.getText().trim();
+        String username = username_tf.getText().trim();
+        String password = password_tf.getText(); 
+        if (nom.isEmpty() || prenom.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            return false;
+        }
+        return true;
+
+    }
+
+    private void displayMessageError(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -222,6 +244,34 @@ public class Inscription extends javax.swing.JFrame {
 
     private void inscription_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inscription_btnActionPerformed
         // TODO add your handling code here:
+        
+       if (Validdatainformulaire()) {
+            
+           try {
+               String nom = nom_tf.getText().trim();
+               String prenom = prenom_tf.getText().trim();
+               String username = username_tf.getText().trim();
+               String password = UtilsFonction.encrypt(password_tf.getText().toString());
+               
+               Utilisateur user = new Utilisateur(nom, prenom, username, password);
+               Utilisateur user1 = UtilisateurDao.createuser(user);
+               
+               if (user1.getId()>0) {
+                   displayMessageError("Insertion avec succes");
+                   this.setVisible(false);
+                   new Connexion().setVisible(true);
+               } else {
+                   displayMessageError("insertion echoué");
+               }
+               
+           } catch (SQLException ex) {
+               Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+           } catch (ClassNotFoundException ex) {
+               Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+           }
+                
+        
+       }
         
        
         

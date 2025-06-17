@@ -32,7 +32,7 @@ public class Connexion extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         username_tf = new javax.swing.JTextField();
         password_tf = new javax.swing.JPasswordField();
-        connexion_btn = new javax.swing.JButton();
+        connexion_con = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         inscription_btn = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -62,13 +62,13 @@ public class Connexion extends javax.swing.JFrame {
         password_tf.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         password_tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        connexion_btn.setBackground(new java.awt.Color(121, 17, 54));
-        connexion_btn.setFont(new java.awt.Font("Viner Hand ITC", 1, 14)); // NOI18N
-        connexion_btn.setForeground(new java.awt.Color(242, 242, 242));
-        connexion_btn.setText("Connexion");
-        connexion_btn.addActionListener(new java.awt.event.ActionListener() {
+        connexion_con.setBackground(new java.awt.Color(121, 17, 54));
+        connexion_con.setFont(new java.awt.Font("Viner Hand ITC", 1, 14)); // NOI18N
+        connexion_con.setForeground(new java.awt.Color(242, 242, 242));
+        connexion_con.setText("Connexion");
+        connexion_con.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connexion_btnActionPerformed(evt);
+                connexion_conActionPerformed(evt);
             }
         });
 
@@ -116,7 +116,7 @@ public class Connexion extends javax.swing.JFrame {
                                     .addComponent(inscription_btn))))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(40, 40, 40)
-                            .addComponent(connexion_btn))))
+                            .addComponent(connexion_con))))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(8, Short.MAX_VALUE))
@@ -135,7 +135,7 @@ public class Connexion extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(password_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(connexion_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(connexion_con, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -163,15 +163,20 @@ public class Connexion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void connexion_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexion_btnActionPerformed
+    private void connexion_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexion_conActionPerformed
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_connexion_btnActionPerformed
+                                                    
+
+        
+        
+    }//GEN-LAST:event_connexion_conActionPerformed
 
     private void inscription_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inscription_btnActionPerformed
         // TODO add your handling code here:
-        new Inscription().setVisible(true);
         this.setVisible(false);
+        new Inscription().setVisible(true);
+        
     }//GEN-LAST:event_inscription_btnActionPerformed
 
     /**
@@ -211,7 +216,7 @@ public class Connexion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton connexion_btn;
+    private javax.swing.JButton connexion_con;
     private javax.swing.JButton inscription_btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
