@@ -4,6 +4,7 @@
  */
 package formulaire;
 
+import static dao.DatabaseService.getConnection;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,6 +13,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Utilisateur;
 import dao.UtilisateurDao;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 
 /**
@@ -27,21 +30,38 @@ public class CreerTournois extends javax.swing.JFrame {
         initComponents();
         System.out.println("TEST BOY");
         System.out.println("SAallluutt");
-        Connect();
+//        Connect();
+    }
+    
+    Connection con;
+    Utilisateur u1;
+    public CreerTournois(Utilisateur u) throws SQLException, ClassNotFoundException {
+        initComponents();
+        u1=u;
+//        System.out.println("TEST BOY");
+//        System.out.println("SAallluutt");
+//        Connect();
+        con = getConnection();
+        String nom_organisateur=u1.getNom();
+        
+       JOptionPane.showMessageDialog(this,u1.getNom());
+       
     }
 
    
-     public void Connect(){
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-              con = DriverManager.getConnection("jdbc:mysql://localhost:3306/examenjavafinal","root","");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-     Connection con;
+//     public void Connect(){
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//              con = DriverManager.getConnection("jdbc:mysql://localhost:3306/examenjavafinal","root","");
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
+
+     
     PreparedStatement pst;
     
     /**
@@ -195,6 +215,7 @@ public class CreerTournois extends javax.swing.JFrame {
         txtDateDebut.setFuente(new java.awt.Font("Snap ITC", 1, 12)); // NOI18N
         txtDateDebut.setPlaceholder("...");
 
+        txtDateFin.setFuente(new java.awt.Font("Snap ITC", 1, 12)); // NOI18N
         txtDateFin.setPlaceholder("...");
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
@@ -354,44 +375,49 @@ public class CreerTournois extends javax.swing.JFrame {
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
           Utilisateur user;
         
-        try {
-            
-            String name=txtName.getText();
-            String game=txtGame.getSelectedItem().toString();
-            String datedebut=txtDateDebut.getDatoFecha().toString();
-            String datefin=txtDateFin.getDatoFecha().toString();
-            String player=txtPlayer.getText();
-            String fraisinscription=txtFraisInscription.getText();
-            String price=txtPrice.getText();
-            pst = con.prepareStatement("INSERT INTO tournois (nom,type_jeux,datedebut,datefin,nombrejoueur,fraisinscription,recompense) VALUES(?,?,?,?,?,?,?)");
-            pst.setString(1,name);
-            pst.setString(2,game);
-            pst.setString(3,datedebut);
-            pst.setString(4,datefin);
-            pst.setString(5,player);
-            pst.setString(6,fraisinscription);
-            pst.setString(7,price);
-            
-            int k=pst.executeUpdate();
-            
-             if(k==1){
-                JOptionPane.showMessageDialog(this, "Record added succesfully");   
-                txtName.setText("");
-                txtGame.setSelectedItem("");
-//                txtDateDebut.setDatoFecha();
-//                txtDateFin.setDatoFecha();
-                txtPlayer.setText("");
-                txtFraisInscription.setText("");
-                txtPrice.setText("");
-                
-                
-            }else{
-                JOptionPane.showMessageDialog(this, "Record failed boy");
-            }
-//          
-        } catch (SQLException ex) {
-            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
+         try {
+        String name = txtName.getText();
+        String game = txtGame.getSelectedItem().toString();
+        
+        java.util.Date dateDebutUtil = txtDateDebut.getDatoFecha();
+        java.util.Date dateFinUtil = txtDateFin.getDatoFecha();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String datedebut = sdf.format(dateDebutUtil);
+        String datefin = sdf.format(dateFinUtil);
+
+        String player = txtPlayer.getText();
+        String fraisinscription = txtFraisInscription.getText();
+        String price = txtPrice.getText();
+        long id_organisateur = u1.getId();
+
+        pst = con.prepareStatement("INSERT INTO tournois (nom, type_jeux, datedebut, datefin, nombrejoueur, fraisinscription, recompense, id_organisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        pst.setString(1, name);
+        pst.setString(2, game);
+        pst.setString(3, datedebut); 
+        pst.setString(4, datefin);   
+        pst.setString(5, player);
+        pst.setString(6, fraisinscription);
+        pst.setString(7, price);
+        pst.setLong(8, id_organisateur);
+
+        int k = pst.executeUpdate();
+
+        if (k == 1) {
+            JOptionPane.showMessageDialog(this, "Tournoi créé avec succès !");
+            txtName.setText("");
+            txtGame.setSelectedIndex(0);
+            txtDateDebut.setDatoFecha(null);
+            txtDateFin.setDatoFecha(null);
+            txtPlayer.setText("");
+            txtFraisInscription.setText("");
+            txtPrice.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Échec de la création du tournoi.");
         }
+    } catch (SQLException ex) {
+        Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
+    }
            
 
     }//GEN-LAST:event_btnCreateActionPerformed

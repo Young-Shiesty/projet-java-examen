@@ -39,7 +39,6 @@ public class DatabaseService {
             try {
                 // Chargement du driver JDBC
                 Class.forName(JDBC_DRIVER);
-
                 // Création de la connexion
                 connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
                 System.out.println("Connexion à la base de données établie avec succès");

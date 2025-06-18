@@ -197,7 +197,8 @@ public class Connexion extends javax.swing.JFrame {
                            
                             System.out.println("id :"+user.getId());
                         JOptionPane.showMessageDialog(this, "connexion ORGANISATEUR reussi");
-//                        this.setVisible(false);
+                        this.setVisible(false);
+                        new CreerTournois(user).setVisible(true) ;
                         }else{
                             JOptionPane.showMessageDialog(this, "connexion admin reussi");
                             System.out.println(""+user.getRole_id());
@@ -228,10 +229,7 @@ public class Connexion extends javax.swing.JFrame {
             if (username.isEmpty() && passsword.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "remplir tout les champs  ");
             }
-
-    }      
-        
-
+    }
         
     }//GEN-LAST:event_connexion_conActionPerformed
 

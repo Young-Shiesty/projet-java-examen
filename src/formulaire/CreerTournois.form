@@ -399,6 +399,9 @@
         </Component>
         <Component class="rojeru_san.componentes.RSDateChooser" name="txtDateFin">
           <Properties>
+            <Property name="fuente" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Snap ITC" size="12" style="1"/>
+            </Property>
             <Property name="placeholder" type="java.lang.String" value="..."/>
           </Properties>
         </Component>
