@@ -27,21 +27,8 @@ public class Inscription extends javax.swing.JFrame {
         initComponents();
     }
     
-     private boolean Validdatainformulaire() {
-        String nom = nom_tf.getText().trim();
-        String prenom = prenom_tf.getText().trim();
-        String username = username_tf.getText().trim();
-        String password = password_tf.getText(); 
-        if (nom.isEmpty() || prenom.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            return false;
-        }
-        return true;
 
-    }
-
-    private void displayMessageError(String message) {
-        JOptionPane.showMessageDialog(this, message);
-    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -243,38 +230,84 @@ public class Inscription extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+private void displayMessageError(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
     private void inscription_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inscription_btnActionPerformed
-        // TODO add your handling code here:
-        
-       if (Validdatainformulaire()) {
-            
-           try {
-               String nom = nom_tf.getText().trim();
-               String prenom = prenom_tf.getText().trim();
-               String username = username_tf.getText().trim();
-               String password = UtilsFonction.encrypt(password_tf.getText().toString());
-               
-               Utilisateur user = new Utilisateur(nom, prenom, username, password);
-               Utilisateur user1 = UtilisateurDao.createuser(user);
-               
-               if (user1.getId()>0) {
-                   displayMessageError("Insertion avec succes");
-                   this.setVisible(false);
-                   new Connexion().setVisible(true);
-               } else {
-                   displayMessageError("insertion echoué");
-               }
-               
-           } catch (SQLException ex) {
-               Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
-           } catch (ClassNotFoundException ex) {
-               Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
-           }
-                
-        
-       }
-        
-       
+     {                                                
+    // TODO add your handling code here:
+    String nom = nom_tf.getText().trim();
+    String prenom = prenom_tf.getText().trim();
+    String username = username_tf.getText().trim();
+    String password = password_tf.getText().trim();
+
+    if (nom.isEmpty()) {
+        displayMessageError("Le nom est obligatoire.");
+        return;
+    }
+
+    if (!nom.matches("[a-zA-Z]+")) {
+        displayMessageError("Le nom ne doit contenir que des lettres.");
+        return;
+    }
+
+    if (prenom.isEmpty()) {
+        displayMessageError("Le prénom est obligatoire.");
+        return;
+    }
+
+    if (!prenom.matches("[a-zA-Z]+")) {
+        displayMessageError("Le prenom  doit avoir que des lettres.");
+        return;
+    }
+
+    if (username.isEmpty()) {
+        displayMessageError("Le username est obligatoire.");
+        return;
+    }
+
+    try {
+        if (UtilisateurDao.usernameExiste(username)) {
+            displayMessageError("Ce username est deja utilise.");
+            return;
+        }
+    } catch (SQLException | ClassNotFoundException ex) {
+        Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+        displayMessageError("Erreur lors de la vérification du username.");
+        return;
+    }
+
+    if (password.isEmpty()) {
+        displayMessageError("Le mot de passe est obligatoire.");
+        return;
+    }
+
+    if (password.length() < 6) {
+        displayMessageError("Le mot de passe doit avoir au moins 6 caractères.");
+        return;
+    }
+
+    try {
+        String Password = UtilsFonction.encrypt(password);
+        Utilisateur user = new Utilisateur(nom, prenom, username, Password);
+        Utilisateur user1 = UtilisateurDao.createuser(user);
+
+        if (user1.getId() > 0) {
+            displayMessageError("Insertion avec succès");
+            this.setVisible(false);
+            new Connexion().setVisible(true);
+        } else {
+            displayMessageError("Insertion échouée");
+        }
+
+    } catch (SQLException ex) {
+        Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
         
     }//GEN-LAST:event_inscription_btnActionPerformed
 
@@ -283,9 +316,6 @@ public class Inscription extends javax.swing.JFrame {
         
         new Connexion().setVisible(true);
         this.setVisible(false);
-        
-        
-        
         
     }//GEN-LAST:event_connexion_btnActionPerformed
 

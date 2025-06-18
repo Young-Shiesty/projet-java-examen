@@ -38,28 +38,13 @@ public class CreerTournois extends javax.swing.JFrame {
     public CreerTournois(Utilisateur u) throws SQLException, ClassNotFoundException {
         initComponents();
         u1=u;
-//        System.out.println("TEST BOY");
-//        System.out.println("SAallluutt");
-//        Connect();
         con = getConnection();
         String nom_organisateur=u1.getNom();
         
-       JOptionPane.showMessageDialog(this,u1.getNom());
-       
+       JOptionPane.showMessageDialog(this,u1.getNom());  
     }
 
    
-//     public void Connect(){
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//              con = DriverManager.getConnection("jdbc:mysql://localhost:3306/examenjavafinal","root","");
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-    
 
      
     PreparedStatement pst;
@@ -373,32 +358,75 @@ public class CreerTournois extends javax.swing.JFrame {
 
     
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-          Utilisateur user;
-        
-         try {
-        String name = txtName.getText();
-        String game = txtGame.getSelectedItem().toString();
-        
+          {
+    Utilisateur user;
+
+    try {
+        String name = txtName.getText().trim();
+        String game = txtGame.getSelectedItem().toString().trim();
+
         java.util.Date dateDebutUtil = txtDateDebut.getDatoFecha();
         java.util.Date dateFinUtil = txtDateFin.getDatoFecha();
+        if (name.isEmpty() || game.isEmpty() || dateDebutUtil == null || dateFinUtil == null) {
+            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs obligatoires.");
+            return;
+        }
+        java.util.Date today = new java.util.Date();
+        if (dateDebutUtil.before(today)) {
+            JOptionPane.showMessageDialog(this, "La date de début doit etre logique.");
+            return;
+        }
+        if (dateFinUtil.before(today)) {
+            JOptionPane.showMessageDialog(this, "La date de fin doit etre logique.");
+            return;
+        }
 
+        if (dateDebutUtil.after(dateFinUtil)) {
+            JOptionPane.showMessageDialog(this, "La date de début ne peut pas être après la date de fin.");
+            return;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String datedebut = sdf.format(dateDebutUtil);
         String datefin = sdf.format(dateFinUtil);
 
-        String player = txtPlayer.getText();
-        String fraisinscription = txtFraisInscription.getText();
-        String price = txtPrice.getText();
-        long id_organisateur = u1.getId();
+  
+        String playerStr = txtPlayer.getText().trim();
+        String fraisStr = txtFraisInscription.getText().trim();
+        String priceStr = txtPrice.getText().trim();
+
+        if (playerStr.isEmpty() || fraisStr.isEmpty() || priceStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        long player;
+        long fraisinscription;
+        long price;
+
+        try {
+            player = Long.parseLong(playerStr);
+            fraisinscription = Long.parseLong(fraisStr);
+            price = Long.parseLong(priceStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Les champs nombre de joueurs, frais et récompense doivent être des nombres.");
+            return;
+        }
+
+        if (player != 8 && player != 16 && player != 32) {
+            JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8, 16 ou 32.");
+            return;
+        }
+
+        long id_organisateur = u1.getId(); // NE PAS TOUCHER
 
         pst = con.prepareStatement("INSERT INTO tournois (nom, type_jeux, datedebut, datefin, nombrejoueur, fraisinscription, recompense, id_organisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         pst.setString(1, name);
         pst.setString(2, game);
-        pst.setString(3, datedebut); 
-        pst.setString(4, datefin);   
-        pst.setString(5, player);
-        pst.setString(6, fraisinscription);
-        pst.setString(7, price);
+        pst.setString(3, datedebut);
+        pst.setString(4, datefin);
+        pst.setLong(5, player);
+        pst.setLong(6, fraisinscription);
+        pst.setLong(7, price);
         pst.setLong(8, id_organisateur);
 
         int k = pst.executeUpdate();
@@ -415,9 +443,12 @@ public class CreerTournois extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Échec de la création du tournoi.");
         }
+
     } catch (SQLException ex) {
         Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
     }
+}
+
            
 
     }//GEN-LAST:event_btnCreateActionPerformed

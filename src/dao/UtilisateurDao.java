@@ -35,6 +35,17 @@ public class UtilisateurDao {
         return null;
 
     }
+    public static boolean usernameExiste(String username) throws SQLException, ClassNotFoundException {
+    Connection con = DatabaseService.getConnection();
+    PreparedStatement pst = con.prepareStatement("SELECT * FROM utilisateurs WHERE username = ?");
+    pst.setString(1, username);
+    ResultSet rs = pst.executeQuery();
+    if (rs.next()) {
+        return true;
+    }
+    return false;
+}
+
 
 }
       
