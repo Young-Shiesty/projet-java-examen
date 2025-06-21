@@ -6,6 +6,8 @@ package models;
 
 import formulaire.CreerTournois;
 import formulaire.ListeJoueurs;
+import formulaire.ListeOrganisateur;
+import formulaire.ListeTournois;
 
 /**
  *
@@ -82,6 +84,11 @@ public class DashbordAdmin extends javax.swing.JFrame {
         organisateur_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         organisateur_btn.setForeground(new java.awt.Color(255, 255, 255));
         organisateur_btn.setText("Organisateur");
+        organisateur_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                organisateur_btnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -208,9 +215,15 @@ public class DashbordAdmin extends javax.swing.JFrame {
 
     private void tournoi_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tournoi_btnActionPerformed
         // TODO add your handling code here:
-        new CreerTournois().setVisible(true);
+        new ListeTournois().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_tournoi_btnActionPerformed
+
+    private void organisateur_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_organisateur_btnActionPerformed
+        // TODO add your handling code here:
+        new ListeOrganisateur().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_organisateur_btnActionPerformed
 
     /**
      * @param args the command line arguments

@@ -5,36 +5,32 @@
 package formulaire;
 
 import static dao.DatabaseService.getConnection;
+import formulaire.ListeJoueurs;
 import java.awt.Color;
 import java.awt.Font;
-import static dao.DatabaseService.getConnection;
-import java.sql.*; 
-import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import models.Utilisateur; 
-import dao.UtilisateurDao;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import models.DashbordAdmin;
-
 
 /**
  *
  * @author gaye_
  */
-public class ListeJoueurs extends javax.swing.JFrame {
+public class ListeOrganisateur extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListeJoueurs
+     * Creates new form ListeOrganisateur
      */
-    public ListeJoueurs() {
+    public ListeOrganisateur() {
         initComponents();
-        
         jTable1.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,12));
         jTable1.getTableHeader().setOpaque(false);
         jTable1.getTableHeader().setBackground(new Color(32,136,203));
@@ -45,13 +41,13 @@ public class ListeJoueurs extends javax.swing.JFrame {
             con = getConnection();
             fetch();
         } catch (SQLException ex) {
-            Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListeOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListeOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+  }
     
-    private void displayMessageError(String message) {
+     private void displayMessageError(String message) {
         JOptionPane.showMessageDialog(this, message);
     } 
     
@@ -59,12 +55,11 @@ public class ListeJoueurs extends javax.swing.JFrame {
     PreparedStatement pst; 
      Connection con;
      ResultSet rs;
-     
-     
+
     private void fetch () {
         try {
             int q;
-            pst = con.prepareStatement("SELECT * FROM joueurs");
+            pst = con.prepareStatement("SELECT * FROM Utilisateurs");
             rs = pst.executeQuery();
             ResultSetMetaData rss = rs.getMetaData();
             q=rss.getColumnCount();
@@ -75,7 +70,9 @@ public class ListeJoueurs extends javax.swing.JFrame {
                 Vector v2 = new Vector();
                 for (int a=1 ; a<=q ;a++) {
                    //v2.add(rs.getString(username_tf));
+                  v2.add(rs.getString("role_id"));
                    v2.add(rs.getString("username"));
+                   
 
                 }
                 df.addRow(v2);
@@ -87,7 +84,6 @@ public class ListeJoueurs extends javax.swing.JFrame {
             Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,19 +102,20 @@ public class ListeJoueurs extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Liste des joueurs"
+                "role_id", "Organisateur & Admin"
             }
         ));
         jTable1.setFocusable(false);
         jTable1.setRowHeight(25);
         jTable1.setSelectionBackground(new java.awt.Color(232, 57, 95));
         jTable1.setShowHorizontalLines(true);
+        jTable1.setShowVerticalLines(true);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
@@ -138,21 +135,20 @@ public class ListeJoueurs extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(110, 110, 110)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
+                        .addGap(179, 179, 179)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(22, 22, 22)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -160,9 +156,8 @@ public class ListeJoueurs extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         new DashbordAdmin().setVisible(true);
+        new DashbordAdmin().setVisible(true);
         this.setVisible(false);
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -182,20 +177,20 @@ public class ListeJoueurs extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListeJoueurs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListeOrganisateur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListeJoueurs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListeOrganisateur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListeJoueurs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListeOrganisateur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListeJoueurs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListeOrganisateur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListeJoueurs().setVisible(true);
+                new ListeOrganisateur().setVisible(true);
             }
         });
     }
