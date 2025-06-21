@@ -2,7 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package formulaire;
+package models;
+
+import formulaire.CreerTournois;
+import formulaire.ListeJoueurs;
 
 /**
  *
