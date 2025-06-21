@@ -245,6 +245,9 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nom_tfActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="username_tf">
           <Properties>
@@ -256,6 +259,9 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="username_tfActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="prenom_tf">
           <Properties>
