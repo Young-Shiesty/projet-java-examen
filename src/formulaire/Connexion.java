@@ -194,11 +194,11 @@ public class Connexion extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "connexion ORGANISATEUR reussi");
                         this.setVisible(false);
                         new DashBoardOrganisateur(user).setVisible(true) ;
+                        
                         }else if(user.getRole_id()==1){
                             JOptionPane.showMessageDialog(this, "connexion admin reussi");
                             System.out.println(""+user.getRole_id());
                         }
-//                        new Dashbord(user).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(this, "login/password incorecte");
                     }

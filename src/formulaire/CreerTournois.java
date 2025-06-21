@@ -15,6 +15,7 @@ import models.Utilisateur;
 import dao.UtilisateurDao;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import models.DashBoardOrganisateur;
 
 
 /**
@@ -40,8 +41,7 @@ public class CreerTournois extends javax.swing.JFrame {
         u1=u;
         con = getConnection();
         String nom_organisateur=u1.getNom();
-        
-       JOptionPane.showMessageDialog(this,u1.getNom());  
+//       JOptionPane.showMessageDialog(this,u1.getNom());  
     }
      
     PreparedStatement pst;
@@ -108,6 +108,11 @@ public class CreerTournois extends javax.swing.JFrame {
         jButton1.setText("BACK TO MENU");
         jButton1.setBorder(null);
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -140,6 +145,11 @@ public class CreerTournois extends javax.swing.JFrame {
 
         txtGame.setBackground(new java.awt.Color(204, 204, 204));
         txtGame.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGameActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Viner Hand ITC", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -248,27 +258,23 @@ public class CreerTournois extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtGame, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDateDebut, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFraisInscription, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(43, 43, 43))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel10))
-                                .addGap(221, 221, 221))))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtGame, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDateDebut, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFraisInscription, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,38 +360,39 @@ public class CreerTournois extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceActionPerformed
 
-    
+    Utilisateur user;
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
           {
-    Utilisateur user;
+    
 
     try {
         String name = txtName.getText().trim();
-        String game = txtGame.getSelectedItem().toString().trim();
+String game = txtGame.getSelectedItem().toString().trim();
 
-        java.util.Date dateDebutUtil = txtDateDebut.getDatoFecha();
-        java.util.Date dateFinUtil = txtDateFin.getDatoFecha();
-        if (name.isEmpty() || game.isEmpty() || dateDebutUtil == null || dateFinUtil == null) {
-            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs obligatoires.");
-            return;
-        }
-        java.util.Date today = new java.util.Date();
-        if (dateDebutUtil.before(today)) {
-            JOptionPane.showMessageDialog(this, "La date de début doit etre logique.");
-            return;
-        }
-        if (dateFinUtil.before(today)) {
-            JOptionPane.showMessageDialog(this, "La date de fin doit etre logique.");
-            return;
-        }
+java.util.Date dateDebutUtil = txtDateDebut.getDatoFecha();
+java.util.Date dateFinUtil = txtDateFin.getDatoFecha();
 
-        if (dateDebutUtil.after(dateFinUtil)) {
-            JOptionPane.showMessageDialog(this, "La date de début ne peut pas être après la date de fin.");
-            return;
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String datedebut = sdf.format(dateDebutUtil);
-        String datefin = sdf.format(dateFinUtil);
+if (name.isEmpty() || game.isEmpty() || dateDebutUtil == null || dateFinUtil == null) {
+    JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs obligatoires.");
+    return;
+}
+
+java.util.Date aujourdui = new java.util.Date();
+
+if (dateDebutUtil.before(aujourdui)) {
+    JOptionPane.showMessageDialog(this, "La date de début ne peut pas être antérieure à aujourd'hui.");
+    return;
+}
+
+if (dateFinUtil.before(dateDebutUtil)) {
+    JOptionPane.showMessageDialog(this, "La date de fin doit être après ou égale à la date de début.");
+    return;
+}
+
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+String datedebut = sdf.format(dateDebutUtil);
+String datefin = sdf.format(dateFinUtil);
+
 
   
         String playerStr = txtPlayer.getText().trim();
@@ -410,12 +417,12 @@ public class CreerTournois extends javax.swing.JFrame {
             return;
         }
 
-        if (player != 8 && player != 16 && player != 32) {
-            JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8, 16 ou 32.");
+        if (player != 8 && player != 16) {
+            JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8 ou 16 .");
             return;
         }
 
-        long id_organisateur = u1.getId(); // NE PAS TOUCHER
+        long id_organisateur = u1.getId();
 
         pst = con.prepareStatement("INSERT INTO tournois (nom, type_jeux, datedebut, datefin, nombrejoueur, fraisinscription, recompense, id_organisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         pst.setString(1, name);
@@ -438,6 +445,12 @@ public class CreerTournois extends javax.swing.JFrame {
             txtPlayer.setText("");
             txtFraisInscription.setText("");
             txtPrice.setText("");
+            this.setVisible(false);
+            try {
+                new DashBoardOrganisateur(u1).setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Échec de la création du tournoi.");
         }
@@ -447,6 +460,22 @@ public class CreerTournois extends javax.swing.JFrame {
     }
 }
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+//            long id_organisateur = u1.getId();
+            this.setVisible(false);
+            new DashBoardOrganisateur(u1).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtGameActionPerformed
 
     /**
      * @param args the command line arguments
