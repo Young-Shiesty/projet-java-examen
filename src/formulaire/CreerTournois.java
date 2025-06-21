@@ -43,9 +43,6 @@ public class CreerTournois extends javax.swing.JFrame {
         
        JOptionPane.showMessageDialog(this,u1.getNom());  
     }
-
-   
-
      
     PreparedStatement pst;
     
@@ -337,6 +334,7 @@ public class CreerTournois extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtFraisInscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFraisInscriptionActionPerformed
@@ -448,9 +446,6 @@ public class CreerTournois extends javax.swing.JFrame {
         Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
-
-           
-
     }//GEN-LAST:event_btnCreateActionPerformed
 
     /**

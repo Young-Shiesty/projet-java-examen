@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import models.DashBoardOrganisateur;
 import models.Utilisateur;
 import utils.UtilsFonction;
 
@@ -296,7 +297,7 @@ private void displayMessageError(String message) {
         if (user1.getId() > 0) {
             displayMessageError("Insertion avec succès");
             this.setVisible(false);
-            new Connexion().setVisible(true);
+            new DashBoardOrganisateur(user1).setVisible(true);
         } else {
             displayMessageError("Insertion échouée");
         }

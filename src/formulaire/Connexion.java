@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import models.DashBoardOrganisateur;
 import models.Utilisateur;
 import utils.UtilsFonction;
 
@@ -144,7 +145,7 @@ public class Connexion extends javax.swing.JFrame {
                 .addComponent(password_con, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(connexion_con, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inscription_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -169,24 +170,18 @@ public class Connexion extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void connexion_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexion_conActionPerformed
         // TODO add your handling code here:
-        
-                                                    
-
-       
         // TODO add your handling code here:
         String username = username_con.getText().trim();
         String passsword = password_con.getText().trim();
+        
         if (!username.isEmpty() && !passsword.isEmpty()) {
-
-            Utilisateur user;
-            
-            
+            Utilisateur user; 
             try {
-                
                 user = UtilisateurDao.getUserByPasswordAndUsername(username);
                 
                 
@@ -198,15 +193,12 @@ public class Connexion extends javax.swing.JFrame {
                             System.out.println("id :"+user.getId());
                         JOptionPane.showMessageDialog(this, "connexion ORGANISATEUR reussi");
                         this.setVisible(false);
-                        new CreerTournois(user).setVisible(true) ;
-                        }else{
+                        new DashBoardOrganisateur(user).setVisible(true) ;
+                        }else if(user.getRole_id()==1){
                             JOptionPane.showMessageDialog(this, "connexion admin reussi");
                             System.out.println(""+user.getRole_id());
                         }
-                        
-                        
 //                        new Dashbord(user).setVisible(true);
-
                     } else {
                         JOptionPane.showMessageDialog(this, "login/password incorecte");
                     }
