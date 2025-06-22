@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.DashBoardOrganisateur;
+import models.DashbordAdmin;
 import models.Utilisateur;
 import utils.UtilsFonction;
 
@@ -198,6 +199,8 @@ public class Connexion extends javax.swing.JFrame {
                         }else if(user.getRole_id()==1){
                             JOptionPane.showMessageDialog(this, "connexion admin reussi");
                             System.out.println(""+user.getRole_id());
+                            this.setVisible(false);
+                            new DashbordAdmin(user).setVisible(true);
                         }
                     } else {
                         JOptionPane.showMessageDialog(this, "login/password incorecte");

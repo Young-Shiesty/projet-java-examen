@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.DashbordAdmin;
+import models.Utilisateur;
 
 /**
  *
@@ -29,23 +30,32 @@ public class ListeOrganisateur extends javax.swing.JFrame {
     /**
      * Creates new form ListeOrganisateur
      */
-    public ListeOrganisateur() {
+    public ListeOrganisateur() throws SQLException, ClassNotFoundException {
         initComponents();
+        con = getConnection();
         jTable1.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,12));
         jTable1.getTableHeader().setOpaque(false);
         jTable1.getTableHeader().setBackground(new Color(32,136,203));
         jTable1.getTableHeader().setForeground(new Color(255,255,255));
         jTable1.setRowHeight(25);
         
-        try { 
-            con = getConnection();
-            fetch();
-        } catch (SQLException ex) {
-            Logger.getLogger(ListeOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ListeOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        
   }
+    Utilisateur u1;
+   
+    public ListeOrganisateur(Utilisateur u) throws SQLException, ClassNotFoundException {
+        initComponents();
+        u1=u;
+        con = getConnection();
+         jTable1.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,12));
+        jTable1.getTableHeader().setOpaque(false);
+        jTable1.getTableHeader().setBackground(new Color(32,136,203));
+        jTable1.getTableHeader().setForeground(new Color(255,255,255));
+        jTable1.setRowHeight(25);
+        
+        fetch();
+    }
     
      private void displayMessageError(String message) {
         JOptionPane.showMessageDialog(this, message);
@@ -59,7 +69,7 @@ public class ListeOrganisateur extends javax.swing.JFrame {
     private void fetch () {
         try {
             int q;
-            pst = con.prepareStatement("SELECT * FROM Utilisateurs");
+            pst = con.prepareStatement("SELECT * FROM Utilisateurs WHERE id_role==2");
             rs = pst.executeQuery();
             ResultSetMetaData rss = rs.getMetaData();
             q=rss.getColumnCount();
@@ -108,7 +118,7 @@ public class ListeOrganisateur extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "role_id", "Organisateur & Admin"
+                "role_id", "Organisateur"
             }
         ));
         jTable1.setFocusable(false);
@@ -190,7 +200,13 @@ public class ListeOrganisateur extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListeOrganisateur().setVisible(true);
+                try {
+                    new ListeOrganisateur().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ListeOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ListeOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

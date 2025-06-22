@@ -32,7 +32,10 @@ public class CreerTournois extends javax.swing.JFrame {
         System.out.println("TEST BOY");
         System.out.println("SAallluutt");
 //        Connect();
+
     }
+    ResultSet rs;
+
     
     Connection con;
     Utilisateur u1;
@@ -41,10 +44,12 @@ public class CreerTournois extends javax.swing.JFrame {
         u1=u;
         con = getConnection();
         String nom_organisateur=u1.getNom();
+        
 //       JOptionPane.showMessageDialog(this,u1.getNom());  
     }
      
     PreparedStatement pst;
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,7 +69,7 @@ public class CreerTournois extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
-        txtGame = new javax.swing.JComboBox<>();
+        Gid = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -143,11 +148,11 @@ public class CreerTournois extends javax.swing.JFrame {
             }
         });
 
-        txtGame.setBackground(new java.awt.Color(204, 204, 204));
-        txtGame.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        txtGame.addActionListener(new java.awt.event.ActionListener() {
+        Gid.setBackground(new java.awt.Color(204, 204, 204));
+        Gid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FIFA", "PES", "NBA2K" }));
+        Gid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGameActionPerformed(evt);
+                GidActionPerformed(evt);
             }
         });
 
@@ -267,7 +272,7 @@ public class CreerTournois extends javax.swing.JFrame {
                             .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtGame, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Gid, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDateDebut, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -293,7 +298,7 @@ public class CreerTournois extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Gid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtDateDebut, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,7 +372,7 @@ public class CreerTournois extends javax.swing.JFrame {
 
     try {
         String name = txtName.getText().trim();
-String game = txtGame.getSelectedItem().toString().trim();
+String game = Gid.getSelectedItem().toString().trim();
 
 java.util.Date dateDebutUtil = txtDateDebut.getDatoFecha();
 java.util.Date dateFinUtil = txtDateFin.getDatoFecha();
@@ -439,7 +444,7 @@ String datefin = sdf.format(dateFinUtil);
         if (k == 1) {
             JOptionPane.showMessageDialog(this, "Tournoi créé avec succès !");
             txtName.setText("");
-            txtGame.setSelectedIndex(0);
+            Gid.setSelectedIndex(0);
             txtDateDebut.setDatoFecha(null);
             txtDateFin.setDatoFecha(null);
             txtPlayer.setText("");
@@ -461,6 +466,7 @@ String datefin = sdf.format(dateFinUtil);
 }
     }//GEN-LAST:event_btnCreateActionPerformed
 
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
 //            long id_organisateur = u1.getId();
@@ -473,9 +479,9 @@ String datefin = sdf.format(dateFinUtil);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void txtGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGameActionPerformed
+    private void GidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GidActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtGameActionPerformed
+    }//GEN-LAST:event_GidActionPerformed
 
     /**
      * @param args the command line arguments
@@ -513,6 +519,7 @@ String datefin = sdf.format(dateFinUtil);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Gid;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -535,7 +542,6 @@ String datefin = sdf.format(dateFinUtil);
     private rojeru_san.componentes.RSDateChooser txtDateDebut;
     private rojeru_san.componentes.RSDateChooser txtDateFin;
     private javax.swing.JTextField txtFraisInscription;
-    private javax.swing.JComboBox<String> txtGame;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPlayer;
     private javax.swing.JTextField txtPrice;

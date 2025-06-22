@@ -1,9 +1,11 @@
 package models;
 
 import static dao.DatabaseService.getConnection;
+import formulaire.AjouterJoueur;
 import formulaire.CreerTournois;
 import formulaire.CrudTournois;
 import formulaire.Inscription;
+import formulaire.JoueurForm;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -254,6 +256,9 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
             }
         ));
         jTable1.setColorBackgoundHead(new java.awt.Color(102, 0, 51));
+        jTable1.setFuenteFilas(new java.awt.Font("Snap ITC", 1, 13)); // NOI18N
+        jTable1.setFuenteFilasSelect(new java.awt.Font("Snap ITC", 1, 13)); // NOI18N
+        jTable1.setFuenteHead(new java.awt.Font("Segoe UI Semibold", 1, 15)); // NOI18N
         jScrollPane1.setViewportView(jTable1);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -322,6 +327,7 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -336,8 +342,15 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel8MousePressed
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
-         new CrudTournois().setVisible(true) ;
+        try {
+            // TODO add your handling code here:
+            new AjouterJoueur(u1).setVisible(true);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoardOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashBoardOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
+        }
          this.setVisible(false);
     }//GEN-LAST:event_jLabel4MouseClicked
 
@@ -399,7 +412,6 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
     private javax.swing.JButton btnCreate;
     private java.awt.Button button1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -408,12 +420,10 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private rojeru_san.complementos.RSTableMetro jTable1;

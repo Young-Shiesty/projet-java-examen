@@ -4,10 +4,17 @@
  */
 package models;
 
+import static dao.DatabaseService.getConnection;
 import formulaire.CreerTournois;
 import formulaire.ListeJoueurs;
 import formulaire.ListeOrganisateur;
 import formulaire.ListeTournois;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,7 +28,16 @@ public class DashbordAdmin extends javax.swing.JFrame {
     public DashbordAdmin() {
         initComponents();
     }
+    Utilisateur u1;
+    public DashbordAdmin(Utilisateur u) throws SQLException, ClassNotFoundException {
+        initComponents();
+         u1=u;
+        con = getConnection();
+    }
 
+    ResultSet rs;
+    Connection con;
+    PreparedStatement pst;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -208,20 +224,38 @@ public class DashbordAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jouers_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jouers_btnActionPerformed
-        // TODO add your handling code here:
-        new ListeJoueurs().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new ListeJoueurs(u1).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashbordAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashbordAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jouers_btnActionPerformed
 
     private void tournoi_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tournoi_btnActionPerformed
-        // TODO add your handling code here:
-        new ListeTournois().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new ListeTournois().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashbordAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashbordAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_tournoi_btnActionPerformed
 
     private void organisateur_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_organisateur_btnActionPerformed
-        // TODO add your handling code here:
-        new ListeOrganisateur().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new ListeOrganisateur(u1).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashbordAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashbordAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_organisateur_btnActionPerformed
 

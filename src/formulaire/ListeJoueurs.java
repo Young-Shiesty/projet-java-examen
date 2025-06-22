@@ -32,33 +32,43 @@ public class ListeJoueurs extends javax.swing.JFrame {
     /**
      * Creates new form ListeJoueurs
      */
-    public ListeJoueurs() {
+    
+    Utilisateur u1;
+    public ListeJoueurs(Utilisateur u) throws SQLException, ClassNotFoundException {
         initComponents();
-        
+         u1=u;
+        con = getConnection();
         jTable1.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,12));
         jTable1.getTableHeader().setOpaque(false);
         jTable1.getTableHeader().setBackground(new Color(32,136,203));
         jTable1.getTableHeader().setForeground(new Color(255,255,255));
         jTable1.setRowHeight(25);
         
-        try { 
-            con = getConnection();
-            fetch();
-        } catch (SQLException ex) {
-            Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        fetch();
+    
     }
+
+    ResultSet rs;
+    Connection con;
+    PreparedStatement pst;
+    public ListeJoueurs() {
+        initComponents();
+        jTable1.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,12));
+        jTable1.getTableHeader().setOpaque(false);
+        jTable1.getTableHeader().setBackground(new Color(32,136,203));
+        jTable1.getTableHeader().setForeground(new Color(255,255,255));
+        jTable1.setRowHeight(25);
+    
+        }
+    
+    
     
     private void displayMessageError(String message) {
         JOptionPane.showMessageDialog(this, message);
     } 
     
    
-    PreparedStatement pst; 
-     Connection con;
-     ResultSet rs;
+    
      
      
     private void fetch () {
