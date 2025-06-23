@@ -10,20 +10,25 @@ import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import models.DashBoardOrganisateur;
 import models.Utilisateur;
 
 /**
  *
- * @author user
+ * @author user                        
  */
 public class CrudTournois extends javax.swing.JFrame {
 
     /**
      * Creates new form DashBoardOrganisateur
      */
-    public CrudTournois() {
+    /*public CrudTournois() {
         initComponents();
     }
     Utilisateur u1;
@@ -35,7 +40,47 @@ public class CrudTournois extends javax.swing.JFrame {
 
     ResultSet rs;
     Connection con;
-    PreparedStatement pst;
+    PreparedStatement pst;*/
+    public CrudTournois() {
+        initComponents();
+    }
+    Utilisateur u1;
+    public CrudTournois(Utilisateur u) throws SQLException, ClassNotFoundException{
+       
+            initComponents();
+            con = getConnection();
+            u1=u;
+            Loadnametournoi();
+            fetch();
+        
+    
+}
+
+ private void displayMessageError(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    } 
+    
+   
+    PreparedStatement pst; 
+     Connection con;
+     ResultSet rs;
+    
+    public void Loadnametournoi(){
+        try {
+            long id = u1.getId();
+            pst=con.prepareStatement("SELECT nom from tournois where id_organisateur");
+            pst.setLong(1, id); 
+            rs = pst.executeQuery();
+            nom_cbx.removeAllItems();
+            while(rs.next()){
+                nom_cbx.addItem(rs.getString(1)); 
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+         
+     }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,13 +98,19 @@ public class CrudTournois extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtPname = new javax.swing.JTextField();
-        txtPname1 = new javax.swing.JTextField();
-        txtPname2 = new javax.swing.JTextField();
-        txtPname3 = new javax.swing.JTextField();
-        txtPname4 = new javax.swing.JTextField();
-        rSDateChooser1 = new rojeru_san.componentes.RSDateChooser();
-        rSDateChooser2 = new rojeru_san.componentes.RSDateChooser();
+        nom_tf = new javax.swing.JTextField();
+        game_tf = new javax.swing.JTextField();
+        player_tf = new javax.swing.JTextField();
+        price_tf = new javax.swing.JTextField();
+        inscription_tf = new javax.swing.JTextField();
+        start_tf = new rojeru_san.componentes.RSDateChooser();
+        end_tf = new rojeru_san.componentes.RSDateChooser();
+        jPanel1 = new javax.swing.JPanel();
+        search_btn = new javax.swing.JButton();
+        nom_cbx = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        modifier_btn = new javax.swing.JButton();
+        supprimer_btn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new rojeru_san.complementos.RSTableMetro();
 
@@ -87,6 +138,64 @@ public class CrudTournois extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Price");
 
+        search_btn.setText("Rechercher");
+        search_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_btnActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("nom du tournoi");
+
+        modifier_btn.setText("Modifier");
+        modifier_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifier_btnActionPerformed(evt);
+            }
+        });
+
+        supprimer_btn.setText("Supprimer");
+        supprimer_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supprimer_btnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(19, 151, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifier_btn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(nom_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(search_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(112, 112, 112)
+                .addComponent(supprimer_btn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nom_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifier_btn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(supprimer_btn)
+                .addGap(45, 45, 45))
+        );
+
         jTable1.setBackground(new java.awt.Color(102, 0, 51));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,30 +218,26 @@ public class CrudTournois extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addGap(0, 14, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtPname2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(453, 453, 453))
-                            .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6))
+                                        .addGap(0, 106, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPname3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPname4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap())))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(player_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(price_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inscription_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
-                                .addComponent(txtPname))
+                                .addComponent(nom_tf))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
@@ -140,57 +245,233 @@ public class CrudTournois extends javax.swing.JFrame {
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPname1)
-                                    .addComponent(rSDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(rSDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                        .addGap(453, 453, 453))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                                    .addComponent(game_tf)
+                                    .addComponent(start_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(end_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                        .addGap(91, 91, 91)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPname1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rSDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 7, Short.MAX_VALUE)
-                        .addComponent(jLabel4))
-                    .addComponent(rSDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPname2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtPname4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtPname3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nom_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(game_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(start_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 6, Short.MAX_VALUE)
+                                .addComponent(jLabel4))
+                            .addComponent(end_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(player_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(inscription_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(price_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+   private void fetch () {
+        try {
+            int q;
+            pst = con.prepareStatement("SELECT * FROM tournois");
+            rs = pst.executeQuery();
+            ResultSetMetaData rss = rs.getMetaData();
+            q=rss.getColumnCount();
+            
+            DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
+            df.setRowCount(0);
+            while(rs.next()){
+                Vector v2 = new Vector();
+                for (int a=1 ; a<=q ;a++) {
+                   v2.add(rs.getString("nom"));
+                   v2.add(rs.getString("type_jeux"));
+                   v2.add(rs.getString("datedebut"));
+                   v2.add(rs.getString("datefin"));
+                   v2.add(rs.getString("nombrejoueur"));
+                   v2.add(rs.getString("fraisinscription"));
+                   v2.add(rs.getString("recompense"));
 
+                }
+                df.addRow(v2);
+            }
+            
+            
+            
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            String nom = nom_cbx.getSelectedItem().toString();
+            
+            pst=con.prepareStatement("SELECT * FROM tournois where nom = ?");
+            pst.setString(1,nom);
+            rs=pst.executeQuery();
+            
+            if(rs.next()==true){
+                nom_tf.setText(rs.getString(2));
+                game_tf.setText(rs.getString(3));
+                //start_tf.setText(rs.getDate(4));
+                //end_tf.setText(rs.getString(5));
+                player_tf.setText(rs.getString(6));
+                inscription_tf.setText(rs.getString(7));
+                price_tf.setText(rs.getString(7));
+            } else {
+          JOptionPane.showMessageDialog(this, "Tournoi introuvable");
+
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_search_btnActionPerformed
+
+    private void modifier_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_btnActionPerformed
+    
+    try {
+        String nom = nom_cbx.getSelectedItem().toString().trim();
+        String game = game_tf.getText().trim();
+        String player = player_tf.getText().trim();
+        String frais = inscription_tf.getText().trim();
+        String price = price_tf.getText().trim();
+
+        // Récupération des dates depuis RSDateChooser
+        java.util.Date utilStart = start_tf.getDatoFecha();
+        java.util.Date utilEnd = end_tf.getDatoFecha();
+
+        // Vérifier que les deux dates sont sélectionnées
+        if (utilStart == null || utilEnd == null) {
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner les deux dates !");
+            return;
+        }
+
+        // Vérifier que la date de début n'est pas avant aujourd'hui
+        java.util.Date aujourdHui = new java.util.Date();
+        if (utilStart.before(aujourdHui)) {
+            JOptionPane.showMessageDialog(this, "La date de début ne peut pas être antérieure à aujourd'hui.");
+            return;
+        }
+
+        // Vérifier que la date de fin est après ou égale à la date de début
+        if (utilEnd.before(utilStart)) {
+            JOptionPane.showMessageDialog(this, "La date de fin doit être après ou égale à la date de début !");
+            return;
+        }
+
+        // Validation des autres champs
+        if (game.isEmpty() || player.isEmpty() || frais.isEmpty() || price.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        if (!game.matches("[a-zA-Z ]+")) {
+            JOptionPane.showMessageDialog(this, "Le type de jeu ne doit contenir que des lettres.");
+            return;
+        }
+
+        if (!player.equals("8")) {
+            JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être exactement 8 !");
+            return;
+        }
+
+        if (!frais.matches("\\d+") || !price.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Les champs Frais et Récompense doivent être des nombres positifs.");
+            return;
+        }
+
+        // Conversion des dates pour SQL
+        java.sql.Date start = new java.sql.Date(utilStart.getTime());
+        java.sql.Date end = new java.sql.Date(utilEnd.getTime());
+
+        // Préparation de la requête
+        pst = con.prepareStatement(
+            "UPDATE Tournois SET nom=?, type_jeux=?, datedebut=?, datefin=?, nombrejoueur=?, fraisinscription=?, recompense=? WHERE nom=?"
+        );
+
+        pst.setString(1, nom);
+        pst.setString(2, game);
+        pst.setDate(3, start);
+        pst.setDate(4, end);
+        pst.setString(5, player);
+        pst.setString(6, frais);
+        pst.setString(7, price);
+        pst.setString(8, nom);
+
+        int k = pst.executeUpdate();
+        if (k == 1) {
+            JOptionPane.showMessageDialog(this, "Mise à jour réussie !");
+            game_tf.setText("");
+            start_tf.setDatoFecha(null);
+            end_tf.setDatoFecha(null);
+            player_tf.setText("");
+            inscription_tf.setText("");
+            price_tf.setText("");
+            nom_cbx.setSelectedIndex(-1);
+
+            fetch();
+            Loadnametournoi();
+        } else {
+            JOptionPane.showMessageDialog(this, "Échec de la mise à jour.");
+        }
+    } catch (SQLException ex) {
+        java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+
+
+    }//GEN-LAST:event_modifier_btnActionPerformed
+
+    private void supprimer_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprimer_btnActionPerformed
+        // TODO add your handling code here:
+          try {
+            // TODO add your handling code here:
+            
+            String nom = nom_cbx.getSelectedItem().toString();
+            pst=con.prepareStatement("DELETE FROM Tournois where nom = ?");
+            pst.setString(1, nom);
+            
+            int k = pst.executeUpdate();
+            if(k==1) {
+                JOptionPane.showMessageDialog(this, "Suppression reuissie");
+                fetch ();
+                Loadnametournoi();
+            } else {
+                JOptionPane.showMessageDialog(this, "Suppression echoué");
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(JoueurForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_supprimer_btnActionPerformed
+ 
     /**
      * @param args the command line arguments
      */
@@ -228,6 +509,9 @@ public class CrudTournois extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojeru_san.componentes.RSDateChooser end_tf;
+    private javax.swing.JTextField game_tf;
+    private javax.swing.JTextField inscription_tf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -235,14 +519,17 @@ public class CrudTournois extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private rojeru_san.complementos.RSTableMetro jTable1;
-    private rojeru_san.componentes.RSDateChooser rSDateChooser1;
-    private rojeru_san.componentes.RSDateChooser rSDateChooser2;
-    private javax.swing.JTextField txtPname;
-    private javax.swing.JTextField txtPname1;
-    private javax.swing.JTextField txtPname2;
-    private javax.swing.JTextField txtPname3;
-    private javax.swing.JTextField txtPname4;
+    private javax.swing.JButton modifier_btn;
+    private javax.swing.JComboBox<String> nom_cbx;
+    private javax.swing.JTextField nom_tf;
+    private javax.swing.JTextField player_tf;
+    private javax.swing.JTextField price_tf;
+    private javax.swing.JButton search_btn;
+    private rojeru_san.componentes.RSDateChooser start_tf;
+    private javax.swing.JButton supprimer_btn;
     // End of variables declaration//GEN-END:variables
 }
