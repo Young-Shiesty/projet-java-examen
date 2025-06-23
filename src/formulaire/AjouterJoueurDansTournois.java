@@ -383,37 +383,51 @@ ResultSet rs;
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         try {
-            // TODO add your handling code here:
+    long id_organisateur = u1.getId();
+    long id_tournois = Long.parseLong(g1);
 
-            
-            long id_organisateur = u1.getId();
-            long id_tournois = Long.parseLong(g1);
-            
-            String[] usernames = {
-                username_tf1.getText().trim(),
-                username_tf2.getText().trim(),
-                username_tf3.getText().trim(),
-                username_tf4.getText().trim(),
-                username_tf5.getText().trim(),
-                username_tf6.getText().trim(),
-                username_tf7.getText().trim(),
-                username_tf8.getText().trim()
-            };
-            
-            pst = con.prepareStatement("INSERT INTO joueurs(username, id_organisateur, id_tournois) VALUES (?, ?, ?)");
-            
-            for (String username : usernames) {
-                if (!username.isEmpty()) {
-                    pst.setString(1, username);
-                    pst.setLong(2, id_organisateur);
-                    pst.setLong(3, id_tournois);
-                    pst.executeUpdate();
-                }
+    String[] usernames = {
+        username_tf1.getText().trim(),
+        username_tf2.getText().trim(),
+        username_tf3.getText().trim(),
+        username_tf4.getText().trim(),
+        username_tf5.getText().trim(),
+        username_tf6.getText().trim(),
+        username_tf7.getText().trim(),
+        username_tf8.getText().trim()
+    };
+
+    boolean atLeastOneValid = false;
+
+    pst = con.prepareStatement("INSERT INTO joueurs(username, id_tournois, id_organisateur) VALUES (?, ?, ?)");
+
+    for (int i = 0; i < usernames.length; i++) {
+        String username = usernames[i];
+        if (!username.isEmpty()) {
+            if (username.matches("^(?=.*[a-zA-Z])[a-zA-Z0-9]+$")) {
+                pst.setString(1, username);
+                pst.setLong(2, id_tournois);
+                pst.setLong(3, id_organisateur);
+                pst.executeUpdate();
+                atLeastOneValid = true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Champ " + (i + 1) + " : Le nom d'utilisateur \"" + username + "\" est invalide.\nUtilisez uniquement des lettres ou lettres + chiffres.");
+                return;
             }
-             JOptionPane.showMessageDialog(this, "Les joueurs ont été ajoutés !");
-        } catch (SQLException ex) {
-            Logger.getLogger(AjouterJoueurDansTournois.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    if (atLeastOneValid) {
+        JOptionPane.showMessageDialog(this, "Les joueurs ont été ajoutés !");
+    } else {
+        JOptionPane.showMessageDialog(this, "Aucun joueur n’a été saisi.");
+    }
+
+} catch (SQLException ex) {
+    Logger.getLogger(AjouterJoueurDansTournois.class.getName()).log(Level.SEVERE, null, ex);
+    JOptionPane.showMessageDialog(this, "Erreur SQL : " + ex.getMessage());
+}
+
 
     
     }//GEN-LAST:event_submitActionPerformed

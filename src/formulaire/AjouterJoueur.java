@@ -218,7 +218,9 @@ public class AjouterJoueur extends javax.swing.JFrame {
 }
     public void LoadGameNo(){
         try {
-            pst = con.prepareStatement("SELECT id FROM tournois");
+            long id = u1.getId();
+            pst = con.prepareStatement("SELECT id FROM tournois where id_organisateur = ?");
+            pst.setLong(1,id);
             rs = pst.executeQuery();
             Gid.removeAllItems();
             while (rs.next()){
