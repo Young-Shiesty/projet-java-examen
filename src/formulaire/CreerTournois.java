@@ -367,7 +367,7 @@ public class CreerTournois extends javax.swing.JFrame {
 
     Utilisateur user;
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-          {
+          
     
 
     try {
@@ -463,7 +463,7 @@ String datefin = sdf.format(dateFinUtil);
     } catch (SQLException ex) {
         Logger.getLogger(CreerTournois.class.getName()).log(Level.SEVERE, null, ex);
     }
-}
+
     }//GEN-LAST:event_btnCreateActionPerformed
 
     

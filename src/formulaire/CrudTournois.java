@@ -50,8 +50,8 @@ public class CrudTournois extends javax.swing.JFrame {
             initComponents();
             con = getConnection();
             u1=u;
-            Loadnametournoi();
             fetch();
+            Loadnametournoi();
         
     
 }
@@ -68,7 +68,7 @@ public class CrudTournois extends javax.swing.JFrame {
     public void Loadnametournoi(){
         try {
             long id = u1.getId();
-            pst=con.prepareStatement("SELECT nom from tournois where id_organisateur");
+            pst=con.prepareStatement("SELECT nom from tournois where id_organisateur=?");
             pst.setLong(1, id); 
             rs = pst.executeQuery();
             nom_cbx.removeAllItems();
@@ -99,7 +99,6 @@ public class CrudTournois extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         nom_tf = new javax.swing.JTextField();
-        game_tf = new javax.swing.JTextField();
         player_tf = new javax.swing.JTextField();
         price_tf = new javax.swing.JTextField();
         inscription_tf = new javax.swing.JTextField();
@@ -113,6 +112,7 @@ public class CrudTournois extends javax.swing.JFrame {
         supprimer_btn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new rojeru_san.complementos.RSTableMetro();
+        Gid = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -211,6 +211,14 @@ public class CrudTournois extends javax.swing.JFrame {
         jTable1.setColorBackgoundHead(new java.awt.Color(102, 0, 51));
         jScrollPane1.setViewportView(jTable1);
 
+        Gid.setBackground(new java.awt.Color(204, 204, 204));
+        Gid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FIFA", "PES", "NBA2K" }));
+        Gid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GidActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -245,9 +253,9 @@ public class CrudTournois extends javax.swing.JFrame {
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(game_tf)
                                     .addComponent(start_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(end_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                                    .addComponent(end_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(Gid, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(91, 91, 91)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -264,7 +272,7 @@ public class CrudTournois extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(game_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Gid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(start_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,7 +307,9 @@ public class CrudTournois extends javax.swing.JFrame {
    private void fetch () {
         try {
             int q;
-            pst = con.prepareStatement("SELECT * FROM tournois");
+            long id = u1.getId();
+           pst = con.prepareStatement("SELECT * FROM tournois where id_organisateur=?");
+           pst.setLong(1, id);
             rs = pst.executeQuery();
             ResultSetMetaData rss = rs.getMetaData();
             q=rss.getColumnCount();
@@ -313,7 +323,7 @@ public class CrudTournois extends javax.swing.JFrame {
                    v2.add(rs.getString("type_jeux"));
                    v2.add(rs.getString("datedebut"));
                    v2.add(rs.getString("datefin"));
-                   v2.add(rs.getString("nombrejoueur"));
+                   v2.add(rs.getInt("nombrejoueur"));
                    v2.add(rs.getString("fraisinscription"));
                    v2.add(rs.getString("recompense"));
 
@@ -331,121 +341,133 @@ public class CrudTournois extends javax.swing.JFrame {
     
     private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
         // TODO add your handling code here:
-        try {
-            // TODO add your handling code here:
-            String nom = nom_cbx.getSelectedItem().toString();
-            
-            pst=con.prepareStatement("SELECT * FROM tournois where nom = ?");
-            pst.setString(1,nom);
-            rs=pst.executeQuery();
-            
-            if(rs.next()==true){
-                nom_tf.setText(rs.getString(2));
-                game_tf.setText(rs.getString(3));
-                //start_tf.setText(rs.getDate(4));
-                //end_tf.setText(rs.getString(5));
-                player_tf.setText(rs.getString(6));
-                inscription_tf.setText(rs.getString(7));
-                price_tf.setText(rs.getString(7));
-            } else {
-          JOptionPane.showMessageDialog(this, "Tournoi introuvable");
+      try {
+    String nom = nom_cbx.getSelectedItem().toString();
 
-            }
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+    pst = con.prepareStatement("SELECT * FROM tournois WHERE nom = ?");
+    pst.setString(1, nom);
+    rs = pst.executeQuery();
+
+    if (rs.next()) {
+        nom_tf.setText(rs.getString(2));
+        
+        
+        String typeJeu = rs.getString(3);
+        Gid.setSelectedItem(typeJeu);
+        start_tf.setDatoFecha(rs.getDate(4));
+        end_tf.setDatoFecha(rs.getDate(5));
+
+        player_tf.setText(rs.getString(6));
+        inscription_tf.setText(rs.getString(7));
+        price_tf.setText(rs.getString(8));
+    } else {
+        JOptionPane.showMessageDialog(this, "Tournoi introuvable");
+    }
+} catch (SQLException ex) {
+    java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+}
+
+
     }//GEN-LAST:event_search_btnActionPerformed
 
     private void modifier_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_btnActionPerformed
     
-    try {
-        String nom = nom_cbx.getSelectedItem().toString().trim();
-        String game = game_tf.getText().trim();
-        String player = player_tf.getText().trim();
-        String frais = inscription_tf.getText().trim();
-        String price = price_tf.getText().trim();
+   try {
+    String nom = nom_cbx.getSelectedItem().toString().trim();
+    String game = Gid.getSelectedItem().toString().trim();
+    String playerStr = player_tf.getText().trim();
+    String fraisStr = inscription_tf.getText().trim();
+    String priceStr = price_tf.getText().trim();
 
-        // Récupération des dates depuis RSDateChooser
-        java.util.Date utilStart = start_tf.getDatoFecha();
-        java.util.Date utilEnd = end_tf.getDatoFecha();
+    // Récupération des dates depuis RSDateChooser
+    java.util.Date utilStart = start_tf.getDatoFecha();
+    java.util.Date utilEnd = end_tf.getDatoFecha();
 
-        // Vérifier que les deux dates sont sélectionnées
-        if (utilStart == null || utilEnd == null) {
-            JOptionPane.showMessageDialog(this, "Veuillez sélectionner les deux dates !");
-            return;
-        }
-
-        // Vérifier que la date de début n'est pas avant aujourd'hui
-        java.util.Date aujourdHui = new java.util.Date();
-        if (utilStart.before(aujourdHui)) {
-            JOptionPane.showMessageDialog(this, "La date de début ne peut pas être antérieure à aujourd'hui.");
-            return;
-        }
-
-        // Vérifier que la date de fin est après ou égale à la date de début
-        if (utilEnd.before(utilStart)) {
-            JOptionPane.showMessageDialog(this, "La date de fin doit être après ou égale à la date de début !");
-            return;
-        }
-
-        // Validation des autres champs
-        if (game.isEmpty() || player.isEmpty() || frais.isEmpty() || price.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
-            return;
-        }
-
-        if (!game.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(this, "Le type de jeu ne doit contenir que des lettres.");
-            return;
-        }
-
-        if (!player.equals("8")) {
-            JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être exactement 8 !");
-            return;
-        }
-
-        if (!frais.matches("\\d+") || !price.matches("\\d+")) {
-            JOptionPane.showMessageDialog(this, "Les champs Frais et Récompense doivent être des nombres positifs.");
-            return;
-        }
-
-        // Conversion des dates pour SQL
-        java.sql.Date start = new java.sql.Date(utilStart.getTime());
-        java.sql.Date end = new java.sql.Date(utilEnd.getTime());
-
-        // Préparation de la requête
-        pst = con.prepareStatement(
-            "UPDATE Tournois SET nom=?, type_jeux=?, datedebut=?, datefin=?, nombrejoueur=?, fraisinscription=?, recompense=? WHERE nom=?"
-        );
-
-        pst.setString(1, nom);
-        pst.setString(2, game);
-        pst.setDate(3, start);
-        pst.setDate(4, end);
-        pst.setString(5, player);
-        pst.setString(6, frais);
-        pst.setString(7, price);
-        pst.setString(8, nom);
-
-        int k = pst.executeUpdate();
-        if (k == 1) {
-            JOptionPane.showMessageDialog(this, "Mise à jour réussie !");
-            game_tf.setText("");
-            start_tf.setDatoFecha(null);
-            end_tf.setDatoFecha(null);
-            player_tf.setText("");
-            inscription_tf.setText("");
-            price_tf.setText("");
-            nom_cbx.setSelectedIndex(-1);
-
-            fetch();
-            Loadnametournoi();
-        } else {
-            JOptionPane.showMessageDialog(this, "Échec de la mise à jour.");
-        }
-    } catch (SQLException ex) {
-        java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    // Vérifier que les champs ne sont pas vides
+    if (nom.isEmpty() || game.isEmpty() || playerStr.isEmpty() || fraisStr.isEmpty() || priceStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
+        return;
     }
+
+    // Vérification du type de jeu (lettres uniquement)
+    if (!game.matches("[a-zA-Z ]+")) {
+        JOptionPane.showMessageDialog(this, "Le type de jeu ne doit contenir que des lettres.");
+        return;
+    }
+
+    // Vérification des dates
+    if (utilStart == null || utilEnd == null) {
+        JOptionPane.showMessageDialog(this, "Veuillez sélectionner les deux dates !");
+        return;
+    }
+
+    java.util.Date aujourdHui = new java.util.Date();
+    if (utilStart.before(aujourdHui)) {
+        JOptionPane.showMessageDialog(this, "La date de début ne peut pas être antérieure à aujourd'hui.");
+        return;
+    }
+
+    if (utilEnd.before(utilStart)) {
+        JOptionPane.showMessageDialog(this, "La date de fin doit être après ou égale à la date de début !");
+        return;
+    }
+
+    // Conversion des valeurs numériques
+    long player;
+    long frais;
+    long price;
+
+    try {
+        player = Long.parseLong(playerStr);
+        frais = Long.parseLong(fraisStr);
+        price = Long.parseLong(priceStr);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Les champs nombre de joueurs, frais et récompense doivent être des nombres.");
+        return;
+    }
+
+    // Vérifier que le nombre de joueurs est 8 ou 16
+    if (player != 8 && player != 16) {
+        JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8 ou 16.");
+        return;
+    }
+
+    // Conversion des dates pour SQL
+    java.sql.Date start = new java.sql.Date(utilStart.getTime());
+    java.sql.Date end = new java.sql.Date(utilEnd.getTime());
+
+    
+    pst = con.prepareStatement(
+        "UPDATE Tournois SET nom=?, type_jeux=?, datedebut=?, datefin=?, nombrejoueur=?, fraisinscription=?, recompense=? WHERE nom=?"
+    );
+
+    pst.setString(1, nom);
+    pst.setString(2, game);
+    pst.setDate(3, start);
+    pst.setDate(4, end);
+    pst.setLong(5, player);
+    pst.setLong(6, frais);
+    pst.setLong(7, price);
+    pst.setString(8, nom); 
+
+    int k = pst.executeUpdate();
+    if (k == 1) {
+        JOptionPane.showMessageDialog(this, "Mise à jour réussie !");
+        Gid.setSelectedIndex(0);
+        start_tf.setDatoFecha(null);
+        end_tf.setDatoFecha(null);
+        player_tf.setText("");
+        inscription_tf.setText("");
+        price_tf.setText("");
+        nom_cbx.setSelectedIndex(-1);
+        fetch(); 
+        Loadnametournoi();
+    } else {
+        JOptionPane.showMessageDialog(this, "Échec de la mise à jour.");
+    }
+} catch (SQLException ex) {
+    java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+}
 
 
     }//GEN-LAST:event_modifier_btnActionPerformed
@@ -471,6 +493,10 @@ public class CrudTournois extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JoueurForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_supprimer_btnActionPerformed
+
+    private void GidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GidActionPerformed
  
     /**
      * @param args the command line arguments
@@ -509,8 +535,8 @@ public class CrudTournois extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Gid;
     private rojeru_san.componentes.RSDateChooser end_tf;
-    private javax.swing.JTextField game_tf;
     private javax.swing.JTextField inscription_tf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
