@@ -17,6 +17,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.DashBoardOrganisateur;
+import models.Tournois;
 import models.Utilisateur;
 
 /**
@@ -52,9 +53,9 @@ public class CrudTournois extends javax.swing.JFrame {
             u1=u;
             fetch();
             Loadnametournoi();
-        
     
 }
+ 
 
  private void displayMessageError(String message) {
         JOptionPane.showMessageDialog(this, message);
@@ -379,23 +380,17 @@ public class CrudTournois extends javax.swing.JFrame {
     String fraisStr = inscription_tf.getText().trim();
     String priceStr = price_tf.getText().trim();
 
-    // Récupération des dates depuis RSDateChooser
+    
     java.util.Date utilStart = start_tf.getDatoFecha();
     java.util.Date utilEnd = end_tf.getDatoFecha();
 
-    // Vérifier que les champs ne sont pas vides
+    
     if (nom.isEmpty() || game.isEmpty() || playerStr.isEmpty() || fraisStr.isEmpty() || priceStr.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
         return;
     }
 
-    // Vérification du type de jeu (lettres uniquement)
-    if (!game.matches("[a-zA-Z ]+")) {
-        JOptionPane.showMessageDialog(this, "Le type de jeu ne doit contenir que des lettres.");
-        return;
-    }
-
-    // Vérification des dates
+    
     if (utilStart == null || utilEnd == null) {
         JOptionPane.showMessageDialog(this, "Veuillez sélectionner les deux dates !");
         return;
@@ -411,46 +406,44 @@ public class CrudTournois extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "La date de fin doit être après ou égale à la date de début !");
         return;
     }
-
-    // Conversion des valeurs numériques
+    
     long player;
-    long frais;
+    float frais;
     long price;
 
     try {
         player = Long.parseLong(playerStr);
-        frais = Long.parseLong(fraisStr);
+        frais = Float.parseFloat(fraisStr);
         price = Long.parseLong(priceStr);
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Les champs nombre de joueurs, frais et récompense doivent être des nombres.");
         return;
     }
 
-    // Vérifier que le nombre de joueurs est 8 ou 16
-    if (player != 8 && player != 16) {
-        JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8 ou 16.");
+    if (player != 8) {
+        JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8.");
         return;
     }
 
     // Conversion des dates pour SQL
     java.sql.Date start = new java.sql.Date(utilStart.getTime());
     java.sql.Date end = new java.sql.Date(utilEnd.getTime());
-
     
+    long id = u1.getId();
     pst = con.prepareStatement(
-        "UPDATE Tournois SET nom=?, type_jeux=?, datedebut=?, datefin=?, nombrejoueur=?, fraisinscription=?, recompense=? WHERE nom=?"
+        "UPDATE Tournois SET nom=?, type_jeux=?, datedebut=?, datefin=?, nombrejoueur=?, fraisinscription=?, recompense=? WHERE id_organisateur=?"
     );
-
     pst.setString(1, nom);
     pst.setString(2, game);
     pst.setDate(3, start);
     pst.setDate(4, end);
     pst.setLong(5, player);
-    pst.setLong(6, frais);
+    pst.setFloat(6, frais);
     pst.setLong(7, price);
-    pst.setString(8, nom); 
+    pst.setLong(8, id);
 
     int k = pst.executeUpdate();
+    
     if (k == 1) {
         JOptionPane.showMessageDialog(this, "Mise à jour réussie !");
         Gid.setSelectedIndex(0);
@@ -462,7 +455,8 @@ public class CrudTournois extends javax.swing.JFrame {
         nom_cbx.setSelectedIndex(-1);
         fetch(); 
         Loadnametournoi();
-    } else {
+    } 
+    else {
         JOptionPane.showMessageDialog(this, "Échec de la mise à jour.");
     }
 } catch (SQLException ex) {

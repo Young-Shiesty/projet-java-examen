@@ -72,6 +72,7 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
 }
 
     @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -332,6 +333,7 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         try {
+            
             // TODO add your handling code here:
             new CrudTournois(u1).setVisible(true);
             this.setVisible(false);
@@ -351,7 +353,6 @@ public class DashBoardOrganisateur extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             new AjouterJoueur(u1).setVisible(true);
-            
         } catch (SQLException ex) {
             Logger.getLogger(DashBoardOrganisateur.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
