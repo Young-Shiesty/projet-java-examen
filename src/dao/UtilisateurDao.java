@@ -6,6 +6,7 @@ import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List; 
+import javax.swing.JOptionPane;
 
 public class UtilisateurDao {
     private static final String sqlinsert = "INSERT INTO UTILISATEURS(nom,prenom,username,password) values (?,?,?,?)";
@@ -57,10 +58,23 @@ public class UtilisateurDao {
     }
     return false;
 }
-
-
+    
+//    public static int verifierNomExiste(Connection con, String nomSaisi) throws SQLException {
+//        
+//            String sql = "SELECT COUNT(*) FROM utilisateurs WHERE nom = ?";
+//            PreparedStatement pst = con.prepareStatement(sql);
+//            pst.setString(1, nomSaisi.trim());
+//            ResultSet rs = pst.executeQuery();
+//            if (rs.next()){
+//                int count = rs.getInt(1);
+//                if (count>0) {
+//                    JOptionPane.showMessageDialog(null, "Ce nom existe déjà dans la base !");
+//                    return 0;
+//                }
+//                JOptionPane.showMessageDialog(null, "Nom disponible.");
+//                return 1;
+//            }
+//        return 0;
+//}
+    
 }
-      
-              
-  
-

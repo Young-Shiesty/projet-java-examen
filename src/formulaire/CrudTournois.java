@@ -351,8 +351,6 @@ public class CrudTournois extends javax.swing.JFrame {
 
     if (rs.next()) {
         nom_tf.setText(rs.getString(2));
-        
-        
         String typeJeu = rs.getString(3);
         Gid.setSelectedItem(typeJeu);
         start_tf.setDatoFecha(rs.getDate(4));
@@ -361,6 +359,7 @@ public class CrudTournois extends javax.swing.JFrame {
         player_tf.setText(rs.getString(6));
         inscription_tf.setText(rs.getString(7));
         price_tf.setText(rs.getString(8));
+        
     } else {
         JOptionPane.showMessageDialog(this, "Tournoi introuvable");
     }

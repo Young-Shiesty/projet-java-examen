@@ -30,10 +30,12 @@ public class AjouterJoueur extends javax.swing.JFrame {
      * Creates new form AjouterJoueur
      */
     public AjouterJoueur() {
+        
         initComponents();
     }
     Utilisateur u1;
     public AjouterJoueur(Utilisateur u) throws SQLException, ClassNotFoundException {
+
         initComponents();
         u1=u;
         con = getConnection();
@@ -89,8 +91,6 @@ public class AjouterJoueur extends javax.swing.JFrame {
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel1.setText("GAME_ID");
-
-        Gid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -232,8 +232,8 @@ public class AjouterJoueur extends javax.swing.JFrame {
     }
     
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try {
-            
+        try 
+        {
             String Game_Id=Gid.getSelectedItem().toString();
             pst=con.prepareStatement("SELECT * FROM tournois WHERE id=?");
             pst.setString(1,Game_Id);
@@ -257,9 +257,11 @@ public class AjouterJoueur extends javax.swing.JFrame {
 
             ajout =true;
             addplayer.setVisible(true);
-            String id_tournois =Game_Id;
-            
-            
+            long id_tournois = Long.parseLong(Game_Id);
+            int nb = CompterPlayer(con,id_tournois);
+        if(nb >=8){
+             addplayer.setVisible(false);
+        }
         } catch (SQLException ex) {
             Logger.getLogger(AjouterJoueur.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -278,6 +280,18 @@ public class AjouterJoueur extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+           public static int CompterPlayer(Connection con, long idTournoi) throws SQLException {
+    int total = 0;
+    String sql = "SELECT COUNT(*) AS total_joueurs FROM joueurs WHERE id_tournois = ?";
+    PreparedStatement pst = con.prepareStatement(sql);
+    pst.setLong(1, idTournoi);
+    ResultSet rs = pst.executeQuery();
+    if (rs.next()) {
+        total = rs.getInt("total_joueurs");
+    }
+    return total;
+}
+ 
 
     private void addplayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addplayerActionPerformed
         try {
