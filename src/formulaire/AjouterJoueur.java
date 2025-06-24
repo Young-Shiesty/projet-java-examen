@@ -276,6 +276,7 @@ public class AjouterJoueur extends javax.swing.JFrame {
             addplayer.setVisible(true);
             long id_tournois = Long.parseLong(Game_Id);
             int nb = CompterPlayer(con,id_tournois);
+            System.out.println("le gid"+Game_Id);
         if(nb >=8){
              addplayer.setVisible(false);
              matchmaking.setVisible(true);
@@ -301,11 +302,14 @@ public class AjouterJoueur extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
            public static int CompterPlayer(Connection con, long idTournoi) throws SQLException {
+               PreparedStatement pst;
+               ResultSet rs;
     int total = 0;
-    String sql = "SELECT COUNT(*) AS total_joueurs FROM joueurs WHERE id_tournois = ?";
-    PreparedStatement pst = con.prepareStatement(sql);
-    pst.setLong(1, idTournoi);
-    ResultSet rs = pst.executeQuery();
+    pst = con.prepareStatement("SELECT COUNT(*) AS total_joueurs FROM joueurs WHERE id_tournois = ?");
+    pst.setLong(1, idTournoi); 
+    rs = pst.executeQuery();
+    
+    
     if (rs.next()) {
         total = rs.getInt("total_joueurs");
     }
@@ -327,12 +331,13 @@ public class AjouterJoueur extends javax.swing.JFrame {
     }//GEN-LAST:event_addplayerActionPerformed
 
     private void matchmakingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matchmakingActionPerformed
-        // TODO add your handling code here:]
         try {
             // TODO add your handling code here:
             String Game_Id=Gid.getSelectedItem().toString();
+            
+            long t = Long.parseLong(Game_Id);
             this.setVisible(false);
-            new AffichageMatch(u1).setVisible(true);
+            new Gerermatch(u1,t).setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(AjouterJoueur.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

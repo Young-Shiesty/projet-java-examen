@@ -21,17 +21,12 @@ import javax.swing.JOptionPane;
 public class MatchMaking {
     
 
-    /**
-     * Crée les matchs pour un tournoi donné en pairant aléatoirement les joueurs.
-     * @param con           La connexion JDBC déjà ouverte
-     * @param idTournoi     L'identifiant du tournoi
-     * @throws SQLException En cas d'erreur SQL
-     */
-    public static void creerMatchs(Connection con, long idTournoi) throws SQLException {
+   
+    public static void creerMatchs(Connection con, long idTournois) throws SQLException {
         // 1. Récupérer tous les joueurs du tournoi
-        String sqlSelect = "SELECT id_joueur FROM joueurs WHERE id_tournoi = ?";
+        String sqlSelect = "SELECT id_joueur FROM joueurs WHERE id_tournois = ?";
         PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
-        pstSelect.setLong(1, idTournoi);
+        pstSelect.setLong(1, idTournois);
         ResultSet rs = pstSelect.executeQuery();
 
         List<Long> joueurs = new ArrayList<>();
@@ -51,18 +46,18 @@ public class MatchMaking {
         Collections.shuffle(joueurs);
 
         // 3. Préparer la requête d'insertion pour les matchs
-        String sqlInsert = "INSERT INTO matchs (id_joueur1, id_joueur2, id_tournoi, numero_match) VALUES (?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO matchs (id_joueur1, id_joueur2, id_tournois, numero_match) VALUES (?, ?, ?, ?)";
         PreparedStatement pstInsert = con.prepareStatement(sqlInsert);
 
         // 4. Boucler par paires et insérer
         int numeroMatch = 1;
         for (int i = 0; i + 1 < joueurs.size(); i += 2) {
             long j1 = joueurs.get(i);
-            long j2 = joueurs.get(i + 1);
+            long j2 = joueurs.get(i+1);
 
             pstInsert.setLong(1, j1);
             pstInsert.setLong(2, j2);
-            pstInsert.setLong(3, idTournoi);
+            pstInsert.setLong(3, idTournois);
             pstInsert.setInt(4, numeroMatch);
             pstInsert.executeUpdate();
 
@@ -80,8 +75,8 @@ public class MatchMaking {
             Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/ta_base", "utilisateur", "motdepasse");
 
-            long idTournoi = 5;  // ou récupéré dynamiquement
-            creerMatchs(con, idTournoi);
+//            long idTournois = 5;  // ou récupéré dynamiquement
+//            creerMatchs(con, idTournois);
 
             con.close();
         } catch (SQLException e) {

@@ -91,8 +91,6 @@ public class ListeJoueurs extends javax.swing.JFrame {
                 df.addRow(v2);
             }
             
-            
-            
         } catch (SQLException ex) {
             Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
         }
