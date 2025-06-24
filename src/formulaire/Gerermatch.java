@@ -61,6 +61,7 @@ public class Gerermatch extends javax.swing.JFrame {
         tableaumatchmaking.setVisible(false);
         commencer.setVisible(false);
         fetch();
+        fetch2();
     }
     Utilisateur u1;
     long t1;
@@ -80,8 +81,8 @@ public class Gerermatch extends javax.swing.JFrame {
             while(rs.next()){
                 Vector v2 = new Vector();
                 for (int a=1 ; a<=q ;a++) {
-                   //v2.add(rs.getString(username_tf));
-                   v2.add(rs.getString("username"));
+               v2.add(rs.getLong("id_joueur"));
+               v2.add(rs.getString("username"));
 
                 }
                 df.addRow(v2);
@@ -92,6 +93,47 @@ public class Gerermatch extends javax.swing.JFrame {
         }
     }
     
+     
+      private void fetch2 () {
+         try {
+            int q;
+            long id=t1;
+            pst = con.prepareStatement("SELECT id_joueur1,id_joueur2,numero_match FROM matchs WHERE id_tournois = ?");
+            pst.setLong(1,id);
+            rs = pst.executeQuery();
+            ResultSetMetaData rss = rs.getMetaData();
+            q=rss.getColumnCount();
+            
+            DefaultTableModel df = (DefaultTableModel)tableaumatchmaking.getModel();
+            df.setRowCount(0);
+            while(rs.next()){
+                Vector v2 = new Vector();
+                for (int a=1 ; a<=q ;a++) {
+                   v2.add(rs.getString("id_joueur1"));
+                   v2.add(rs.getString("id_joueur2"));
+                   v2.add(rs.getString("numero_match"));
+                }
+                df.addRow(v2);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+      
+       public static int CompterMatch(Connection con, long id) throws SQLException {
+               PreparedStatement pst;
+               ResultSet rs;
+    int total = 0;
+    pst = con.prepareStatement("SELECT COUNT(*) AS total_matchs FROM matchs WHERE id_tournois = ?");
+    pst.setLong(1, id); 
+    rs = pst.executeQuery();
+    
+    if (rs.next()) {
+        total = rs.getInt("total_matchs");
+    }
+    return total;
+}
     
 
     /**
@@ -113,7 +155,7 @@ public class Gerermatch extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setBackground(new java.awt.Color(0, 204, 0));
+        jButton2.setBackground(new java.awt.Color(0, 255, 0));
         jButton2.setText("Rencontre");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,13 +165,13 @@ public class Gerermatch extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Liste des participations pour ce tournoi"
+                "id_joueur", "Liste des participations pour ce tournoi"
             }
         ));
         jTable1.setFocusable(false);
@@ -140,13 +182,13 @@ public class Gerermatch extends javax.swing.JFrame {
 
         tableaumatchmaking.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Player1", "vs", "Player2", "Match"
+                "Player1       vs", "Player2", "Match"
             }
         ));
         tableaumatchmaking.setFocusable(false);
@@ -217,18 +259,33 @@ public class Gerermatch extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        jButton2.setVisible(false);
-        tableaumatchmaking.setVisible(true);
-        commencer.setVisible(true);
+         try {
+             // TODO add your handling code here:
+             if(CompterMatch(con,t1)>=4){
+                 jButton2.setVisible(false);
+                 fetch2();
+             }
+             jButton2.setVisible(false);
+             tableaumatchmaking.setVisible(true);
+             commencer.setVisible(true);
+         } catch (SQLException ex) {
+             Logger.getLogger(Gerermatch.class.getName()).log(Level.SEVERE, null, ex);
+         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void commencerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commencerActionPerformed
          try {
              // TODO add your handling code here:
-             JOptionPane.showMessageDialog(this,"VA SUR L'AUTRE PAGE");
-             MatchMaking.creerMatchs(con, t1);
+             if(CompterMatch(con,t1)>=4){
+              this.setVisible(false);
+               new ResultatMatch().setVisible(true);
+            
+        }else{
+                 MatchMaking.creerMatchs(con, t1);
+             }
+             
+            
          } catch (SQLException ex) {
              Logger.getLogger(Gerermatch.class.getName()).log(Level.SEVERE, null, ex);
          }

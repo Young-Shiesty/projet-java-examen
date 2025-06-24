@@ -421,6 +421,7 @@ ResultSet rs;
     if (atLeastOneValid) {
         JOptionPane.showMessageDialog(this, "Les joueurs ont été ajoutés !");
         this.setVisible(false);
+        new Gerermatch(u1, id_tournois);
         try {
             new AffichageMatch(u1).setVisible(true);
         } catch (ClassNotFoundException ex) {
@@ -433,7 +434,9 @@ ResultSet rs;
 } catch (SQLException ex) {
     Logger.getLogger(AjouterJoueurDansTournois.class.getName()).log(Level.SEVERE, null, ex);
     JOptionPane.showMessageDialog(this, "Erreur SQL : " + ex.getMessage());
-}
+}       catch (ClassNotFoundException ex) {
+            Logger.getLogger(AjouterJoueurDansTournois.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
     

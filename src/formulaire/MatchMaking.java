@@ -23,7 +23,7 @@ public class MatchMaking {
 
    
     public static void creerMatchs(Connection con, long idTournois) throws SQLException {
-        // 1. Récupérer tous les joueurs du tournoi
+       
         String sqlSelect = "SELECT id_joueur FROM joueurs WHERE id_tournois = ?";
         PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
         pstSelect.setLong(1, idTournois);
@@ -36,36 +36,34 @@ public class MatchMaking {
         rs.close();
         pstSelect.close();
 
-        // Si moins de 2 joueurs, on ne peut pas faire de match
+       
         if (joueurs.size() < 2) {
             JOptionPane.showMessageDialog(null, "Pas assez de joueurs pour générer des matchs.");
             return;
         }
 
-        // 2. Mélanger la liste aléatoirement
+       
         Collections.shuffle(joueurs);
 
-        // 3. Préparer la requête d'insertion pour les matchs
-        String sqlInsert = "INSERT INTO matchs (id_joueur1, id_joueur2, id_tournois, numero_match) VALUES (?, ?, ?, ?)";
-        PreparedStatement pstInsert = con.prepareStatement(sqlInsert);
+        PreparedStatement pst = con.prepareStatement("INSERT INTO matchs (id_joueur1, id_joueur2, id_tournois, numero_match) VALUES (?, ?, ?, ?)");
+        
+        
 
-        // 4. Boucler par paires et insérer
-        int numeroMatch = 1;
-        for (int i = 0; i + 1 < joueurs.size(); i += 2) {
-            long j1 = joueurs.get(i);
-            long j2 = joueurs.get(i+1);
+        
+       for (int i = 0; i + 1 < joueurs.size(); i += 2) {
+    int matchNum = (i / 2) + 1;
 
-            pstInsert.setLong(1, j1);
-            pstInsert.setLong(2, j2);
-            pstInsert.setLong(3, idTournois);
-            pstInsert.setInt(4, numeroMatch);
-            pstInsert.executeUpdate();
+        pst.setLong(1, joueurs.get(i));
+        pst.setLong(2, joueurs.get(i + 1));
+        pst.setLong(3, idTournois);
+        pst.setInt(4, matchNum);
+        pst.executeUpdate();
+        
+}
 
-            numeroMatch++;
-        }
 
-        pstInsert.close();
-        JOptionPane.showMessageDialog(null, "Matchs créés avec succès (" + (numeroMatch - 1) + " matchs).");
+        pst.close();
+//        JOptionPane.showMessageDialog(null, "Matchs crees avec succeess.");
         
     }
 
@@ -73,10 +71,7 @@ public class MatchMaking {
     public static void main(String[] args) {
         try {
             Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/ta_base", "utilisateur", "motdepasse");
-
-//            long idTournois = 5;  // ou récupéré dynamiquement
-//            creerMatchs(con, idTournois);
+                "jdbc:mysql://localhost:3306/examenjavafinal", "root", "");
 
             con.close();
         } catch (SQLException e) {
