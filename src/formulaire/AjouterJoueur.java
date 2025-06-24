@@ -26,6 +26,7 @@ import models.Utilisateur;
 public class AjouterJoueur extends javax.swing.JFrame {
 
     Boolean ajout = false;
+    Boolean mt = false;
     /**
      * Creates new form AjouterJoueur
      */
@@ -43,7 +44,11 @@ public class AjouterJoueur extends javax.swing.JFrame {
         LoadGameNo();
         if(ajout ==false){
             addplayer.setVisible(false);
+        }if (mt==false){
+            matchmaking.setVisible(false);
         }
+        
+        
     }
     ResultSet rs;
     Connection con;
@@ -69,6 +74,7 @@ public class AjouterJoueur extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         addplayer = new javax.swing.JButton();
+        matchmaking = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 255, 0));
@@ -146,6 +152,13 @@ public class AjouterJoueur extends javax.swing.JFrame {
             }
         });
 
+        matchmaking.setText("MATCH MAKING");
+        matchmaking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                matchmakingActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,8 +175,10 @@ public class AjouterJoueur extends javax.swing.JFrame {
                         .addComponent(jButton1)))
                 .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(addplayer, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(174, 174, 174)
+                .addComponent(addplayer, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(matchmaking, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -179,7 +194,9 @@ public class AjouterJoueur extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(addplayer, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(matchmaking, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addplayer, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
 
@@ -261,6 +278,9 @@ public class AjouterJoueur extends javax.swing.JFrame {
             int nb = CompterPlayer(con,id_tournois);
         if(nb >=8){
              addplayer.setVisible(false);
+             matchmaking.setVisible(true);
+        }else{
+            matchmaking.setVisible(false);
         }
         } catch (SQLException ex) {
             Logger.getLogger(AjouterJoueur.class.getName()).log(Level.SEVERE, null, ex);
@@ -306,6 +326,21 @@ public class AjouterJoueur extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addplayerActionPerformed
 
+    private void matchmakingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matchmakingActionPerformed
+        // TODO add your handling code here:]
+        try {
+            // TODO add your handling code here:
+            String Game_Id=Gid.getSelectedItem().toString();
+            this.setVisible(false);
+            new AffichageMatch(u1).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(AjouterJoueur.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AjouterJoueur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_matchmakingActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -350,5 +385,6 @@ public class AjouterJoueur extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private rojeru_san.complementos.RSTableMetro jTable1;
+    private javax.swing.JButton matchmaking;
     // End of variables declaration//GEN-END:variables
 }

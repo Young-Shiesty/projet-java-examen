@@ -29,7 +29,7 @@ public class AffichageMatch extends javax.swing.JFrame {
             initComponents();
             con = getConnection();
             u1=u;
-            fetch();
+            
             
     
 }
@@ -46,133 +46,24 @@ public class AffichageMatch extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        search_btn = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new rojeru_san.complementos.RSTableMetro();
-        Gid = new javax.swing.JComboBox<>();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        search_btn.setText("Rechercher");
-        search_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                search_btnActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("nom du tournoi");
-
-        jTable1.setBackground(new java.awt.Color(102, 0, 51));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Name", "Game", "DateDebut", "DateFin", "Players", "Frais", "Price"
-            }
-        ));
-        jTable1.setColorBackgoundHead(new java.awt.Color(102, 0, 51));
-        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(search_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                    .addComponent(Gid, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+            .addGap(0, 596, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Gid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(151, 151, 151)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+            .addGap(0, 419, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-  private void fetch () {
-        try {
-            int q;
-            long id = u1.getId();
-           pst = con.prepareStatement("SELECT * FROM tournois where id_organisateur=?");
-           pst.setLong(1, id);
-            rs = pst.executeQuery();
-            ResultSetMetaData rss = rs.getMetaData();
-            q=rss.getColumnCount();
-            
-            DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-            df.setRowCount(0);
-            while(rs.next()){
-                Vector v2 = new Vector();
-                for (int a=1 ; a<=q ;a++) {
-                   v2.add(rs.getString("nom"));
-                   v2.add(rs.getString("type_jeux"));
-                   v2.add(rs.getString("datedebut"));
-                   v2.add(rs.getString("datefin"));
-                   v2.add(rs.getInt("nombrejoueur"));
-                   v2.add(rs.getString("fraisinscription"));
-                   v2.add(rs.getString("recompense"));
-
-                }
-                df.addRow(v2);
-            }
-            
-            
-            
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
+  
   Utilisateur u1;
    
-
-    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
-        try {
-            
-            String Game_Id=Gid.getSelectedItem().toString();
-            pst=con.prepareStatement("SELECT * FROM tournois WHERE id=?");
-            pst.setString(1,Game_Id);
-            rs=pst.executeQuery();
-           ResultSetMetaData rss = rs.getMetaData();
-            int q = rss.getColumnCount();
-        DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
-        df.setRowCount(0);
-
-        while (rs.next()) {
-            Vector v2 = new Vector();
-            v2.add(rs.getString("nom"));
-            v2.add(rs.getString("type_jeux"));
-            v2.add(rs.getString("datedebut"));
-            v2.add(rs.getString("datefin"));
-            v2.add(rs.getString("nombrejoueur"));
-            v2.add(rs.getString("fraisinscription"));
-            v2.add(rs.getString("recompense"));
-            df.addRow(v2);
-        }
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(AjouterJoueur.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_search_btnActionPerformed
 
 
 
@@ -289,10 +180,5 @@ public class AffichageMatchs {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Gid;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private rojeru_san.complementos.RSTableMetro jTable1;
-    private javax.swing.JButton search_btn;
     // End of variables declaration//GEN-END:variables
 }
