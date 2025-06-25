@@ -66,7 +66,7 @@ public class Gerermatch extends javax.swing.JFrame {
     Utilisateur u1;
     long t1;
     
-     private void fetch () {
+     private void fetch (){
          try {
             int q;
             long id=t1;
@@ -83,7 +83,6 @@ public class Gerermatch extends javax.swing.JFrame {
                 for (int a=1 ; a<=q ;a++) {
                v2.add(rs.getLong("id_joueur"));
                v2.add(rs.getString("username"));
-
                 }
                 df.addRow(v2);
             }
@@ -256,6 +255,7 @@ public class Gerermatch extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -279,7 +279,11 @@ public class Gerermatch extends javax.swing.JFrame {
              // TODO add your handling code here:
              if(CompterMatch(con,t1)>=4){
               this.setVisible(false);
-               new ResultatMatch().setVisible(true);
+                 try {
+                     new ResultatMatch(u1, t1).setVisible(true);
+                 } catch (ClassNotFoundException ex) {
+                     Logger.getLogger(Gerermatch.class.getName()).log(Level.SEVERE, null, ex);
+                 }
             
         }else{
                  MatchMaking.creerMatchs(con, t1);

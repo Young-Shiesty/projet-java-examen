@@ -146,6 +146,12 @@ public class CrudTournois extends javax.swing.JFrame {
             }
         });
 
+        nom_cbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nom_cbxActionPerformed(evt);
+            }
+        });
+
         jLabel8.setText("nom du tournoi");
 
         modifier_btn.setText("Modifier");
@@ -366,8 +372,6 @@ public class CrudTournois extends javax.swing.JFrame {
 } catch (SQLException ex) {
     java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 }
-
-
     }//GEN-LAST:event_search_btnActionPerformed
 
     private void modifier_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_btnActionPerformed
@@ -490,6 +494,10 @@ public class CrudTournois extends javax.swing.JFrame {
     private void GidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GidActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_GidActionPerformed
+
+    private void nom_cbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom_cbxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nom_cbxActionPerformed
  
     /**
      * @param args the command line arguments

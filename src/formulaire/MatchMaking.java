@@ -47,9 +47,7 @@ public class MatchMaking {
 
         PreparedStatement pst = con.prepareStatement("INSERT INTO matchs (id_joueur1, id_joueur2, id_tournois, numero_match) VALUES (?, ?, ?, ?)");
         
-        
-
-        
+                
        for (int i = 0; i + 1 < joueurs.size(); i += 2) {
     int matchNum = (i / 2) + 1;
 
@@ -67,7 +65,7 @@ public class MatchMaking {
         
     }
 
-    // Exemple d'appel :
+    
     public static void main(String[] args) {
         try {
             Connection con = DriverManager.getConnection(
