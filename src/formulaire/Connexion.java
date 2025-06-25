@@ -26,7 +26,6 @@ public class Connexion extends javax.swing.JFrame {
     public Connexion() {
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -184,13 +183,9 @@ public class Connexion extends javax.swing.JFrame {
             Utilisateur user; 
             try {
                 user = UtilisateurDao.getUserByPasswordAndUsername(username);
-                
-                
                 if (user != null) {
-                    
                     if (passsword.equals(UtilsFonction.decrypt(user.getPassword())) && username.equals(user.getUsername())) {
                         if(user.getRole_id()==2){
-                           
                             System.out.println("id :"+user.getId());
                         JOptionPane.showMessageDialog(this, "connexion ORGANISATEUR reussi");
                         this.setVisible(false);

@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.DashBoardOrganisateur;
 import models.Utilisateur;
 
 /**
@@ -36,6 +37,24 @@ public class ResultatMatch extends javax.swing.JFrame {
          this.t1=t;
         con = getConnection();
         fetch2();
+        if(CompterMatch(con,1,t1)==1){
+            apply_match1.setVisible(false);
+        }
+        if(CompterMatch(con,2,t1)==1){
+            apply_match2.setVisible(false);   
+        }
+        if(CompterMatch(con,3,t1)==1){
+            apply_match3.setVisible(false);
+        }
+        if(CompterMatch(con,4,t1)==1){
+            apply_match4.setVisible(false);
+        }
+        
+         if(CompterMatch(con,1,t1)==0 || CompterMatch(con,2,t1)==0 || CompterMatch(con,3,t1)==0 || CompterMatch(con,4,t1)==0){
+            nextround.setVisible(false);
+        }else{
+             nextround.setVisible(true);
+         }
         
     }
      Utilisateur u1;
@@ -64,7 +83,6 @@ public class ResultatMatch extends javax.swing.JFrame {
                 }
                 df.addRow(v2);
             }
-            
         } catch (SQLException ex) {
             Logger.getLogger(ListeJoueurs.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -82,24 +100,6 @@ public class ResultatMatch extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         tableaumatchmaking = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        id_user_match2 = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        apply_match2 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        id_user_match3 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        apply_match3 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        id_user_match4 = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        apply_match4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -107,6 +107,26 @@ public class ResultatMatch extends javax.swing.JFrame {
         apply_match1 = new javax.swing.JButton();
         score_p2 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        score_p3 = new javax.swing.JTextField();
+        apply_match2 = new javax.swing.JButton();
+        score_p4 = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        score_p5 = new javax.swing.JTextField();
+        apply_match3 = new javax.swing.JButton();
+        score_p6 = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        score_p7 = new javax.swing.JTextField();
+        apply_match4 = new javax.swing.JButton();
+        score_p8 = new javax.swing.JTextField();
+        nextround = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,142 +147,6 @@ public class ResultatMatch extends javax.swing.JFrame {
         tableaumatchmaking.setShowVerticalLines(true);
         tableaumatchmaking.getTableHeader().setResizingAllowed(false);
         jScrollPane2.setViewportView(tableaumatchmaking);
-
-        jLabel3.setText("Match 2 selectionner gagnant:");
-
-        id_user_match2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel4.setText("SCORE:");
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
-        apply_match2.setText("Apply");
-        apply_match2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apply_match2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(id_user_match2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(apply_match2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(id_user_match2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(apply_match2))
-                .addContainerGap(9, Short.MAX_VALUE))
-        );
-
-        jLabel5.setText("Match 3 selectionner gagnant:");
-
-        id_user_match3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("SCORE:");
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-
-        apply_match3.setText("Apply");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(id_user_match3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(apply_match3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(id_user_match3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(apply_match3)))
-        );
-
-        jLabel7.setText("Match 4 selectionner gagnant:");
-
-        id_user_match4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel8.setText("SCORE:");
-
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
-        apply_match4.setText("Apply");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(id_user_match4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(apply_match4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(id_user_match4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(apply_match4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         jLabel1.setText("Match 1 selectionner gagnant:");
 
@@ -292,9 +176,8 @@ public class ResultatMatch extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(score_p1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,44 +202,235 @@ public class ResultatMatch extends javax.swing.JFrame {
 
         jLabel9.setText("P1           P2");
 
+        jLabel10.setText("Match 2 selectionner gagnant:");
+
+        jLabel11.setText("SCORE:");
+
+        score_p3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                score_p3ActionPerformed(evt);
+            }
+        });
+
+        apply_match2.setText("Apply");
+        apply_match2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apply_match2ActionPerformed(evt);
+            }
+        });
+
+        score_p4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                score_p4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jLabel10)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(score_p3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(score_p4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(86, 86, 86)
+                .addComponent(apply_match2)
+                .addContainerGap(105, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(score_p3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apply_match2)
+                    .addComponent(score_p4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        jLabel12.setText("Match 3 selectionner gagnant:");
+
+        jLabel13.setText("SCORE:");
+
+        score_p5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                score_p5ActionPerformed(evt);
+            }
+        });
+
+        apply_match3.setText("Apply");
+        apply_match3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apply_match3ActionPerformed(evt);
+            }
+        });
+
+        score_p6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                score_p6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(score_p5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(score_p6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(83, 83, 83)
+                .addComponent(apply_match3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(score_p5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apply_match3)
+                    .addComponent(score_p6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        jLabel14.setText("Match 4 selectionner gagnant:");
+
+        jLabel15.setText("SCORE:");
+
+        score_p7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                score_p7ActionPerformed(evt);
+            }
+        });
+
+        apply_match4.setText("Apply");
+        apply_match4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apply_match4ActionPerformed(evt);
+            }
+        });
+
+        score_p8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                score_p8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(score_p7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(score_p8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87)
+                .addComponent(apply_match4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15)
+                    .addComponent(score_p7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apply_match4)
+                    .addComponent(score_p8, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        nextround.setText("NEXT ROUND");
+        nextround.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextroundActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(51, 51, 51));
+        jButton1.setFont(new java.awt.Font("Snap ITC", 0, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("BACK TO MENU");
+        jButton1.setBorder(null);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(21, 21, 21)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(248, 248, 248)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 99, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(nextround, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(nextround, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -367,29 +441,26 @@ public class ResultatMatch extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_score_p1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void apply_match2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_apply_match2ActionPerformed
-
+    
+    public static int CompterMatch(Connection con, long id, long t1) throws SQLException {
+               PreparedStatement pst;
+               ResultSet rs;           
+    int total = 0;
+    long id_tournois=t1; 
+    pst = con.prepareStatement("SELECT COUNT(*) AS total_matchs FROM scores WHERE id_match = ? AND id_tournois = ?");
+    pst.setLong(1, id); 
+    pst.setLong(2, id_tournois); 
+    rs = pst.executeQuery();
+    if (rs.next()) {
+        total = rs.getInt("total_matchs");
+    }
+    return total;
+}
     private void apply_match1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match1ActionPerformed
        try {
     long gagnant;
     String score_1 = score_p1.getText().trim();
     String score_2 = score_p2.getText().trim();
-
-    // Vérifier que les scores contiennent uniquement des chiffres
     if (!score_1.matches("\\d+") || !score_2.matches("\\d+")) {
         JOptionPane.showMessageDialog(this, "Veuillez saisir uniquement des chiffres pour les scores.");
         return;
@@ -411,7 +482,8 @@ public class ResultatMatch extends javax.swing.JFrame {
     long id_match = 1; 
     long id_tournois=t1; 
 
-    pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM matchs WHERE numero_match = 1");
+    pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM matchs WHERE numero_match = 1 AND id_tournois = ?");
+    pst.setLong(1, id_tournois); 
     rs = pst.executeQuery();
 
     if (rs.next()) {
@@ -437,6 +509,7 @@ public class ResultatMatch extends javax.swing.JFrame {
         pstInsert.close();
 
         JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
+        apply_match1.setVisible(false);   
         
     } else {
         JOptionPane.showMessageDialog(this, "Aucun match trouvé.");
@@ -457,6 +530,244 @@ public class ResultatMatch extends javax.swing.JFrame {
     private void score_p2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_score_p2ActionPerformed
+
+    private void score_p3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p3ActionPerformed
+
+    private void apply_match2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match2ActionPerformed
+        // TODO add your handling code here:
+         try {
+    long gagnant;
+    String score_3 = score_p3.getText().trim();
+    String score_4 = score_p4.getText().trim();
+    if (!score_3.matches("\\d+") || !score_4.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "Veuillez saisir uniquement des chiffres pour les scores.");
+        return;
+    }
+    
+    long score_33 = Long.parseLong(score_3);
+    long score_44 = Long.parseLong(score_4);
+
+    if (score_33 < 0 || score_44<0) {
+            JOptionPane.showMessageDialog(this, "Pas de negatif.");
+            return;
+    }
+    
+    if (score_33 == score_44) {
+        JOptionPane.showMessageDialog(this, "Pas de match nul.");
+        return;
+    }
+
+    long id_match = 2; 
+    long id_tournois=t1; 
+
+    pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM matchs WHERE numero_match = 2 AND id_tournois=?");
+    pst.setLong(1, id_tournois); 
+    rs = pst.executeQuery();
+
+    if (rs.next()) {
+        long id_j3 = rs.getLong("id_joueur1");
+        long id_j4 = rs.getLong("id_joueur2");
+
+        if (score_33 > score_44) {
+            gagnant = id_j3;
+        } else {
+            gagnant = id_j4;
+        }
+
+        JOptionPane.showMessageDialog(this, "Le gagnant est le joueur avec l'ID : " + gagnant);
+        PreparedStatement pstInsert = con.prepareStatement("INSERT INTO scores (id_match, id_gagnant, score_joueur1, score_joueur2, id_tournois) VALUES (?, ?, ?, ?, ?)");
+        pstInsert.setLong(1, id_match);
+        pstInsert.setLong(2, gagnant);
+        pstInsert.setLong(3, score_33);
+        pstInsert.setLong(4, score_44);
+        pstInsert.setLong(5, id_tournois);
+        pstInsert.executeUpdate();
+        pstInsert.close();
+
+        JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
+        apply_match2.setVisible(false);   
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "Aucun match trouvé.");
+    }
+         } catch (SQLException ex) {
+    Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
+}
+    }//GEN-LAST:event_apply_match2ActionPerformed
+
+    private void score_p4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p4ActionPerformed
+
+    private void score_p5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p5ActionPerformed
+
+    private void apply_match3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match3ActionPerformed
+        // TODO add your handling code here:
+        try {
+    long gagnant;
+    String score_5 = score_p5.getText().trim();
+    String score_6 = score_p6.getText().trim();
+    if (!score_5.matches("\\d+") || !score_6.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "Veuillez saisir uniquement des chiffres pour les scores.");
+        return;
+    }
+    
+    long score_55 = Long.parseLong(score_5);
+    long score_66 = Long.parseLong(score_6);
+
+    if (score_55 < 0 || score_66<0) {
+            JOptionPane.showMessageDialog(this, "Pas de negatif.");
+            return;
+    }
+    
+    if (score_55 == score_66) {
+        JOptionPane.showMessageDialog(this, "Pas de match nul.");
+        return;
+    }
+
+    long id_match = 3; 
+    long id_tournois=t1; 
+
+    pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM matchs WHERE numero_match = 3 AND id_tournois = ?");
+    pst.setLong(1, id_tournois); 
+    rs = pst.executeQuery();
+
+    if (rs.next()) {
+        long id_j5 = rs.getLong("id_joueur1");
+        long id_j6 = rs.getLong("id_joueur2");
+
+        if(score_55 > score_66) {
+            gagnant = id_j5;
+        } else {
+            gagnant = id_j6;
+        }
+
+        JOptionPane.showMessageDialog(this, "Le gagnant est le joueur avec l'ID : " + gagnant);
+        PreparedStatement pstInsert = con.prepareStatement("INSERT INTO scores (id_match, id_gagnant, score_joueur1, score_joueur2, id_tournois) VALUES (?, ?, ?, ?, ?)");
+        pstInsert.setLong(1, id_match);
+        pstInsert.setLong(2, gagnant);
+        pstInsert.setLong(3, score_55);
+        pstInsert.setLong(4, score_66);
+        pstInsert.setLong(5, id_tournois);
+        pstInsert.executeUpdate();
+        pstInsert.close();
+
+        JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
+        apply_match3.setVisible(false);   
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "Aucun match trouvé.");
+    }
+         } catch (SQLException ex) {
+    Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
+}
+    }//GEN-LAST:event_apply_match3ActionPerformed
+
+    private void score_p6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p6ActionPerformed
+
+    private void score_p7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p7ActionPerformed
+
+    private void apply_match4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match4ActionPerformed
+        // TODO add your handling code here:
+        try {
+    long gagnant;
+    String score_7 = score_p7.getText().trim();
+    String score_8 = score_p8.getText().trim();
+    if (!score_7.matches("\\d+") || !score_8.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "Veuillez saisir uniquement des chiffres pour les scores.");
+        return;
+    }
+    
+    long score_77 = Long.parseLong(score_7);
+    long score_88 = Long.parseLong(score_8);
+
+    if (score_77 < 0 || score_88<0) {
+            JOptionPane.showMessageDialog(this, "Pas de negatif.");
+            return;
+    }
+    
+    if (score_77 == score_88) {
+        JOptionPane.showMessageDialog(this, "Pas de match nul.");
+        return;
+    }
+
+    long id_match = 4; 
+    long id_tournois=t1; 
+
+    pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM matchs WHERE numero_match = 4 AND id_tournois=?");
+    pst.setLong(1, id_tournois); 
+    rs = pst.executeQuery();
+
+    if (rs.next()) {
+        long id_j7 = rs.getLong("id_joueur1");
+        long id_j8 = rs.getLong("id_joueur2");
+
+        if (score_77 > score_88){
+            gagnant = id_j7;
+        } else {
+            gagnant = id_j8;
+        }
+
+        JOptionPane.showMessageDialog(this, "Le gagnant est le joueur avec l'ID : " + gagnant);
+        PreparedStatement pstInsert = con.prepareStatement("INSERT INTO scores (id_match, id_gagnant, score_joueur1, score_joueur2, id_tournois) VALUES (?, ?, ?, ?, ?)");
+        pstInsert.setLong(1, id_match);
+        pstInsert.setLong(2, gagnant);
+        pstInsert.setLong(3, score_77);
+        pstInsert.setLong(4, score_88);
+        pstInsert.setLong(5, id_tournois);
+        pstInsert.executeUpdate();
+        pstInsert.close();
+
+        JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
+        apply_match4.setVisible(false);   
+        nextround.setVisible(true);
+
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "Aucun match trouvé.");
+    }
+         } catch (SQLException ex) {
+    Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
+}
+    }//GEN-LAST:event_apply_match4ActionPerformed
+
+    private void score_p8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p8ActionPerformed
+
+    
+    
+    private void nextroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextroundActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            new DemieFinal(u1,t1).setVisible(true);
+        } catch (SQLException ex){
+            Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_nextroundActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            this.setVisible(false);
+            new DashBoardOrganisateur(u1).setVisible(true);
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(CrudTournois.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -498,28 +809,30 @@ public class ResultatMatch extends javax.swing.JFrame {
     private javax.swing.JButton apply_match2;
     private javax.swing.JButton apply_match3;
     private javax.swing.JButton apply_match4;
-    private javax.swing.JComboBox<String> id_user_match2;
-    private javax.swing.JComboBox<String> id_user_match3;
-    private javax.swing.JComboBox<String> id_user_match4;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton nextround;
     private javax.swing.JTextField score_p1;
     private javax.swing.JTextField score_p2;
+    private javax.swing.JTextField score_p3;
+    private javax.swing.JTextField score_p4;
+    private javax.swing.JTextField score_p5;
+    private javax.swing.JTextField score_p6;
+    private javax.swing.JTextField score_p7;
+    private javax.swing.JTextField score_p8;
     private javax.swing.JTable tableaumatchmaking;
     // End of variables declaration//GEN-END:variables
 }

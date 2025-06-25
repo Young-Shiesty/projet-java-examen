@@ -50,7 +50,6 @@ public class MatchMaking {
                 
        for (int i = 0; i + 1 < joueurs.size(); i += 2) {
     int matchNum = (i / 2) + 1;
-
         pst.setLong(1, joueurs.get(i));
         pst.setLong(2, joueurs.get(i + 1));
         pst.setLong(3, idTournois);
