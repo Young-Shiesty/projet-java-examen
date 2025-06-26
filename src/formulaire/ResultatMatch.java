@@ -726,7 +726,7 @@ public class ResultatMatch extends javax.swing.JFrame {
         pstInsert.executeUpdate();
         pstInsert.close();
 
-        JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
+//        JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
         apply_match4.setVisible(false);   
         nextround.setVisible(true);
 

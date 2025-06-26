@@ -43,7 +43,17 @@ public class DemieFinal extends javax.swing.JFrame {
         }else{
              fetch();
         }
-        
+        if(VerifScore(con, t1, 1)>0){
+            apply_match2.setVisible(false);
+        }
+        if(VerifScore(con, t1, 2)>0){
+            apply_match3.setVisible(false);
+        }
+        if(VerifScore(con, t1, 1)==0 || VerifScore(con, t1, 2)==0){
+            Finalbtn.setVisible(false);
+        }else{
+            Finalbtn.setVisible(true);
+        }
 //        fetch();
         
         }
@@ -58,20 +68,36 @@ public class DemieFinal extends javax.swing.JFrame {
                ResultSet rs;           
     int total = 0;
     long id_tournois=t1; 
-    pst = con.prepareStatement("SELECT COUNT(*) AS total_final FROM final WHERE  id_tournois = ?");
+    pst = con.prepareStatement("SELECT COUNT(*) AS total_demiefinal FROM demiefinal WHERE  id_tournois = ?");
 //    pst.setLong(1, id); 
     pst.setLong(1, id_tournois); 
     rs = pst.executeQuery();
     if (rs.next()) {
-        total = rs.getInt("total_final");
+        total = rs.getInt("total_demiefinal");
     }
     return total;
 }
-     private void fetch () {
+    public static int VerifScore(Connection con,long t1, long id_match) throws SQLException {
+               PreparedStatement pst;
+               ResultSet rs;           
+    int total = 0;
+    long id_tournois=t1; 
+    
+    pst = con.prepareStatement("SELECT COUNT(*) AS total_scoredemiefinal FROM scoredemiefinal WHERE  id_tournois = ? and id_match=?");
+//    pst.setLong(1, id); 
+    pst.setLong(1, id_tournois); 
+    pst.setLong(2, id_match);
+    rs = pst.executeQuery();
+    if (rs.next()) {
+        total = rs.getInt("total_scoredemiefinal");
+    }
+    return total;
+}
+     private void fetch (){
          try {
             int q;
             long id=t1;
-            pst = con.prepareStatement("SELECT * FROM final WHERE id_tournois = ?");
+            pst = con.prepareStatement("SELECT * FROM demiefinal WHERE id_tournois = ?");
             pst.setLong(1,id);
             rs = pst.executeQuery();
             ResultSetMetaData rss = rs.getMetaData();
@@ -114,7 +140,7 @@ public class DemieFinal extends javax.swing.JFrame {
        
         Collections.shuffle(joueurs);
 
-        pst = con.prepareStatement("INSERT INTO final (id_joueur1, id_joueur2, id_tournois, numero_match) VALUES (?, ?, ?, ?)");
+        pst = con.prepareStatement("INSERT INTO demiefinal (id_joueur1, id_joueur2, id_tournois, numero_match) VALUES (?, ?, ?, ?)");
         
        for (int i = 0; i + 1 < joueurs.size(); i += 2) {
     int matchNum = (i / 2) + 1;
@@ -126,7 +152,7 @@ public class DemieFinal extends javax.swing.JFrame {
         
 }
         pst.close();
-        JOptionPane.showMessageDialog(null, "Matchs crees avec succeess.");
+        JOptionPane.showMessageDialog(null, "Matchmaking crees avec succeess.");
         
     }
     /**
@@ -155,6 +181,7 @@ public class DemieFinal extends javax.swing.JFrame {
         apply_match3 = new javax.swing.JButton();
         score_p6 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        Finalbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -216,7 +243,7 @@ public class DemieFinal extends javax.swing.JFrame {
                 .addComponent(score_p4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86)
                 .addComponent(apply_match2)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,7 +295,7 @@ public class DemieFinal extends javax.swing.JFrame {
                 .addComponent(score_p6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86)
                 .addComponent(apply_match3)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,39 +312,49 @@ public class DemieFinal extends javax.swing.JFrame {
 
         jLabel9.setText("P1           P2");
 
+        Finalbtn.setText("FINAL");
+        Finalbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FinalbtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 184, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(214, 214, 214))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(Finalbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Finalbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -350,83 +387,7 @@ public class DemieFinal extends javax.swing.JFrame {
     private void apply_match2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match2ActionPerformed
         try {
             long gagnant;
-            String score_1 = score_p1.getText().trim();
-            String score_2 = score_p2.getText().trim();
-            if (!score_1.matches("\\d+") || !score_2.matches("\\d+")) {
-                JOptionPane.showMessageDialog(this, "Veuillez saisir uniquement des chiffres pour les scores.");
-                return;
-            }
-
-            long score_11 = Long.parseLong(score_1);
-            long score_22 = Long.parseLong(score_2);
-
-            if (score_11 < 0 || score_22<0) {
-                JOptionPane.showMessageDialog(this, "Pas de negatif.");
-                return;
-            }
-
-            if (score_11 == score_22) {
-                JOptionPane.showMessageDialog(this, "Pas de match nul.");
-                return;
-            }
-
-            long id_match = 1;
-            long id_tournois=t1;
-
-            pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM matchs WHERE numero_match = 1 AND id_tournois = ?");
-            pst.setLong(1, id_tournois);
-            rs = pst.executeQuery();
-
-            if (rs.next()) {
-                long id_j1 = rs.getLong("id_joueur1");
-                long id_j2 = rs.getLong("id_joueur2");
- 
-                if (score_11 > score_22) {
-                    gagnant = id_j1;
-                } else {
-                    gagnant = id_j2;
-                }
-
-                JOptionPane.showMessageDialog(this, "Le gagnant est le joueur avec l'ID : " + gagnant);
-                PreparedStatement pstInsert = con.prepareStatement(
-                    "INSERT INTO scores (id_match, id_gagnant, score_joueur1, score_joueur2, id_tournois) VALUES (?, ?, ?, ?, ?)"
-                );
-                pstInsert.setLong(1, id_match);
-                pstInsert.setLong(2, gagnant);
-                pstInsert.setLong(3, score_11);
-                pstInsert.setLong(4, score_22);
-                pstInsert.setLong(5, id_tournois);
-                pstInsert.executeUpdate();
-                pstInsert.close();
-
-                JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
-                apply_match1.setVisible(false);
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Aucun match trouvé.");
-            }
-
-            rs.close();
-            pst.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_apply_match2ActionPerformed
-
-    private void score_p4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_score_p4ActionPerformed
-
-    private void score_p5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_score_p5ActionPerformed
-
-    private void apply_match3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match3ActionPerformed
-        // TODO add your handling code here:
-        try {
-            long gagnant;
+            long place3eme;
             String score_3 = score_p3.getText().trim();
             String score_4 = score_p4.getText().trim();
             if (!score_3.matches("\\d+") || !score_4.matches("\\d+")) {
@@ -447,39 +408,127 @@ public class DemieFinal extends javax.swing.JFrame {
                 return;
             }
 
-            long id_match = 2;
+            long id_match = 1;
             long id_tournois=t1;
 
-            pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM matchs WHERE numero_match = 2 AND id_tournois=?");
+            pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM demiefinal WHERE numero_match = 1 AND id_tournois = ?");
             pst.setLong(1, id_tournois);
             rs = pst.executeQuery();
 
             if (rs.next()) {
                 long id_j3 = rs.getLong("id_joueur1");
                 long id_j4 = rs.getLong("id_joueur2");
-
-                if (score_33 > score_44) {
+ 
+                if (score_33 > score_44){
                     gagnant = id_j3;
+                    place3eme =id_j4 ;
                 } else {
                     gagnant = id_j4;
+                    place3eme = id_j3;
                 }
 
                 JOptionPane.showMessageDialog(this, "Le gagnant est le joueur avec l'ID : " + gagnant);
-                PreparedStatement pstInsert = con.prepareStatement("INSERT INTO scores (id_match, id_gagnant, score_joueur1, score_joueur2, id_tournois) VALUES (?, ?, ?, ?, ?)");
-                pstInsert.setLong(1, id_match);
-                pstInsert.setLong(2, gagnant);
-                pstInsert.setLong(3, score_33);
-                pstInsert.setLong(4, score_44);
-                pstInsert.setLong(5, id_tournois);
+                PreparedStatement pstInsert = con.prepareStatement(
+                    "INSERT INTO scoredemiefinal (id_gagnant,id_match,id_tournois,score_joueur1, score_joueur2,place3eme) VALUES (?, ?, ?, ?, ?,?)"
+                );
+                pstInsert.setLong(1,gagnant);
+                pstInsert.setLong(2, id_match);
+                pstInsert.setLong(3, id_tournois);
+                pstInsert.setLong(4, score_33);
+                pstInsert.setLong(5, score_44);
+                pstInsert.setLong(6,place3eme);
+                
+                
                 pstInsert.executeUpdate();
                 pstInsert.close();
-
-                JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
+                
+//                JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
                 apply_match2.setVisible(false);
-
             } else {
                 JOptionPane.showMessageDialog(this, "Aucun match trouvé.");
             }
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_apply_match2ActionPerformed
+
+    private void score_p4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p4ActionPerformed
+
+    private void score_p5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_score_p5ActionPerformed
+
+    private void apply_match3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apply_match3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            long gagnant;
+            long place3eme;
+            String score_5 = score_p5.getText().trim();
+            String score_6 = score_p6.getText().trim();
+            if (!score_5.matches("\\d+") || !score_6.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Veuillez saisir uniquement des chiffres pour les scores.");
+                return;
+            }
+
+            long score_55 = Long.parseLong(score_5);
+            long score_66 = Long.parseLong(score_6);
+
+            if (score_55 < 0 || score_66<0) {
+                JOptionPane.showMessageDialog(this, "Pas de negatif.");
+                return;
+            }
+
+            if (score_55 == score_66) {
+                JOptionPane.showMessageDialog(this, "Pas de match nul.");
+                return;
+            }
+
+            long id_match = 2;
+            long id_tournois=t1;
+
+                pst = con.prepareStatement("SELECT id_joueur1, id_joueur2 FROM demiefinal WHERE numero_match = 2 AND id_tournois = ?");
+            pst.setLong(1, id_tournois);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                long id_j5 = rs.getLong("id_joueur1");
+                long id_j6 = rs.getLong("id_joueur2");
+ 
+                if (score_55 > score_66){
+                    gagnant = id_j5;
+                    place3eme =id_j6;
+                } else {
+                    gagnant =id_j6;
+                    place3eme =id_j5 ;
+                }
+
+                JOptionPane.showMessageDialog(this, "Le gagnant est le joueur avec l'ID : " + gagnant);
+                PreparedStatement pstInsert = con.prepareStatement(
+                    "INSERT INTO scoredemiefinal (id_gagnant,id_match,id_tournois,score_joueur1, score_joueur2,place3eme) VALUES (?, ?, ?, ?, ?,?)"
+                );
+                pstInsert.setLong(1,gagnant);
+                pstInsert.setLong(2, id_match);
+                pstInsert.setLong(3, id_tournois);
+                pstInsert.setLong(4, score_55);
+                pstInsert.setLong(5, score_66);
+                pstInsert.setLong(6,place3eme);
+                
+                
+                pstInsert.executeUpdate();
+                pstInsert.close();
+                
+//                JOptionPane.showMessageDialog(this, "Score enregistré avec succès.");
+                apply_match3.setVisible(false);
+                Finalbtn.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Aucun match trouvé.");
+            }
+            rs.close();
+            pst.close();
         } catch (SQLException ex) {
             Logger.getLogger(ResultatMatch.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -488,6 +537,74 @@ public class DemieFinal extends javax.swing.JFrame {
     private void score_p6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_score_p6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_score_p6ActionPerformed
+
+    private void FinalbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalbtnActionPerformed
+        
+        try {
+            if(Final.CompterMatchFinal(con, t1)==0){
+                try {
+                    long id_tournois = t1;
+                    
+                    pst = con.prepareStatement("SELECT id_gagnant, place3eme FROM scoredemiefinal WHERE id_tournois = ?");
+                    pst.setLong(1, id_tournois);
+                    rs = pst.executeQuery();
+                    
+                    ArrayList<Long> gagnants = new ArrayList<>();
+                    ArrayList<Long> troisiemes = new ArrayList<>();
+                    
+                    while (rs.next()) {
+                        gagnants.add(rs.getLong("id_gagnant"));
+                        troisiemes.add(rs.getLong("place3eme"));
+                    }
+                    if (gagnants.size() == 2 && troisiemes.size() == 2) {
+                        
+                        PreparedStatement pstFinal = con.prepareStatement(
+                                "INSERT INTO final (id_joueur1, id_joueur2, id_tournois, lastmatch) VALUES (?, ?, ?, ?)"
+                        );
+                        pstFinal.setLong(1, gagnants.get(0));
+                        pstFinal.setLong(2, gagnants.get(1));
+                        pstFinal.setLong(3, id_tournois);
+                        pstFinal.setString(4, "final");
+                        pstFinal.executeUpdate();
+                        
+                        
+                        PreparedStatement pst3rd = con.prepareStatement(
+                                "INSERT INTO final (id_joueur1, id_joueur2, id_tournois, lastmatch) VALUES (?, ?, ?, ?)"
+                        );
+                        pst3rd.setLong(1, troisiemes.get(0));
+                        pst3rd.setLong(2, troisiemes.get(1));
+                        pst3rd.setLong(3, id_tournois);
+                        pst3rd.setString(4, "3rdplace");
+                        pst3rd.executeUpdate();
+                        
+                        
+                        this.setVisible(false);
+                        new Final(u1, t1).setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this, " il faut deux gagnants et deux perdants  pour les lestmatchs.");
+                    }
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(DemieFinal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(DemieFinal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                 this.setVisible(false);
+                try {
+                    new Final(u1, t1).setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(DemieFinal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DemieFinal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+
+
+    }//GEN-LAST:event_FinalbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -525,6 +642,7 @@ public class DemieFinal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Finalbtn;
     private javax.swing.JButton apply_match1;
     private javax.swing.JButton apply_match2;
     private javax.swing.JButton apply_match3;

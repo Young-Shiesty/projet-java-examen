@@ -187,12 +187,12 @@ public class Connexion extends javax.swing.JFrame {
                     if (passsword.equals(UtilsFonction.decrypt(user.getPassword())) && username.equals(user.getUsername())) {
                         if(user.getRole_id()==2){
                             System.out.println("id :"+user.getId());
-                        JOptionPane.showMessageDialog(this, "connexion ORGANISATEUR reussi");
+//                        JOptionPane.showMessageDialog(this, "connexion ORGANISATEUR reussi");
                         this.setVisible(false);
                         new DashBoardOrganisateur(user).setVisible(true) ;
                         
                         }else if(user.getRole_id()==1){
-                            JOptionPane.showMessageDialog(this, "connexion admin reussi");
+//                            JOptionPane.showMessageDialog(this, "connexion admin reussi");
                             System.out.println(""+user.getRole_id());
                             this.setVisible(false);
                             new DashbordAdmin(user).setVisible(true);
