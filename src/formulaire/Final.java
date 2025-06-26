@@ -483,48 +483,53 @@ Utilisateur u1;
 
     // 1. Récupération du vainqueur (finale)
     PreparedStatement pstGagnantFinal = con.prepareStatement(
-        "SELECT id_gagnant FROM scorefinal WHERE id_tournois = ? AND statu = 'final'"
+        "SELECT id_gagnant FROM scorefinal WHERE id_tournois = ? AND LOWER(TRIM(statu)) = 'Vainqueur'"
     );
     pstGagnantFinal.setLong(1, id_tournois);
-    ResultSet rs = pstGagnantFinal.executeQuery();
+    ResultSet rsFinal = pstGagnantFinal.executeQuery();
 
     long id_vainqueur = 0;
-    if (rs.next()) {
-        id_vainqueur = rs.getLong("id_gagnant");
+    if (rsFinal.next()) {
+        id_vainqueur = rsFinal.getLong("id_gagnant");
+        System.out.println("✔ Vainqueur trouvé : " + id_vainqueur);
+    } else {
+        System.out.println("❌ Aucun vainqueur trouvé pour le tournoi #" + id_tournois);
     }
 
     // 2. Récupération des joueurs de la finale
     PreparedStatement pstFinal = con.prepareStatement(
-        "SELECT id_joueur1, id_joueur2 FROM final WHERE id_tournois = ? AND lastmatch = 'final'"
+        "SELECT id_joueur1, id_joueur2 FROM final WHERE id_tournois = ? AND LOWER(TRIM(lastmatch)) = 'final'"
     );
     pstFinal.setLong(1, id_tournois);
-    rs = pstFinal.executeQuery();
+    ResultSet rsJoueurs = pstFinal.executeQuery();
 
     long id_2eme = 0;
-    if (rs.next()) {
-    long j1 = rs.getLong("id_joueur1");
-    long j2 = rs.getLong("id_joueur2");
+    if (rsJoueurs.next()) {
+        long j1 = rsJoueurs.getLong("id_joueur1");
+        long j2 = rsJoueurs.getLong("id_joueur2");
 
-    if (j1 == id_vainqueur) {
-        id_2eme = j2;
+        id_2eme = (j1 == id_vainqueur) ? j2 : j1;
+        System.out.println("✔ 2e place déterminée : " + id_2eme);
     } else {
-        id_2eme = j1;
+        System.out.println("❌ Aucun match final trouvé pour le tournoi #" + id_tournois);
     }
-}
 
-    // 3. Récupération du 3e
+    // 3. Récupération du 3ème (match 3e place)
     PreparedStatement pstTroisieme = con.prepareStatement(
-        "SELECT id_gagnant FROM scorefinal WHERE id_tournois = ? AND statu = '3rdplace'"
+        "SELECT id_gagnant FROM scorefinal WHERE id_tournois = ? AND LOWER(TRIM(statu)) = '3eme'"
     );
     pstTroisieme.setLong(1, id_tournois);
-    rs = pstTroisieme.executeQuery();
+    ResultSet rs3eme = pstTroisieme.executeQuery();
 
     long id_3eme = 0;
-    if (rs.next()) {
-        id_3eme = rs.getLong("id_gagnant");
+    if (rs3eme.next()) {
+        id_3eme = rs3eme.getLong("id_gagnant");
+        System.out.println("✔ 3e place trouvée : " + id_3eme);
+    } else {
+        System.out.println("❌ Aucun match pour la 3e place trouvé.");
     }
 
-    // 4. Insertion dans la table podium
+    // 4. Insertion dans le podium
     if (id_vainqueur != 0 && id_2eme != 0 && id_3eme != 0) {
         PreparedStatement pstInsert = con.prepareStatement(
             "INSERT INTO podium (id_vainqueur, id_2eme, id_3eme, id_tournois) VALUES (?, ?, ?, ?)"
@@ -535,20 +540,21 @@ Utilisateur u1;
         pstInsert.setLong(4, id_tournois);
         pstInsert.executeUpdate();
 
-        JOptionPane.showMessageDialog(this, "Podium inséré avec succès !");
+        JOptionPane.showMessageDialog(this, "🏆 Podium inséré avec succès !");
         this.setVisible(false);
         try {
-            new Podium(u1,t1).setVisible(true);
+            new Podium(u1, t1).setVisible(true);
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Final.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     } else {
-        JOptionPane.showMessageDialog(this, "Impossible d’insérer le podium : données incomplètes.");
+        JOptionPane.showMessageDialog(this, "⚠️ Données incomplètes pour insérer le podium.");
     }
 
 } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(Final.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+    java.util.logging.Logger.getLogger(Final.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    JOptionPane.showMessageDialog(this, "❌ Erreur SQL : " + ex.getMessage());
+}
 
     }//GEN-LAST:event_podiumbtnActionPerformed
 

@@ -229,7 +229,6 @@ public class Connexion extends javax.swing.JFrame {
         new Inscription().setVisible(false);
         this.setVisible(false);
         new Inscription().setVisible(true);
-        
     }//GEN-LAST:event_inscription_btnActionPerformed
 
     /**

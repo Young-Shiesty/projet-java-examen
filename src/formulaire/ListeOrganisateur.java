@@ -69,7 +69,7 @@ public class ListeOrganisateur extends javax.swing.JFrame {
     private void fetch () {
         try {
             int q;
-            pst = con.prepareStatement("SELECT * FROM Utilisateurs WHERE id_role==2");
+            pst = con.prepareStatement("SELECT * FROM utilisateurs WHERE role_id=2");
             rs = pst.executeQuery();
             ResultSetMetaData rss = rs.getMetaData();
             q=rss.getColumnCount();
@@ -162,6 +162,7 @@ public class ListeOrganisateur extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

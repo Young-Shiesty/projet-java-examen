@@ -152,7 +152,7 @@ public class DemieFinal extends javax.swing.JFrame {
         
 }
         pst.close();
-        JOptionPane.showMessageDialog(null, "Matchmaking crees avec succeess.");
+//        JOptionPane.showMessageDialog(null, "Matchmaking crees avec succeess.");
         
     }
     /**

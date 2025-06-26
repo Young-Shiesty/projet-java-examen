@@ -55,7 +55,7 @@ public class Podium extends javax.swing.JFrame {
 //    PreparedStatement pst;
         try {
             long id_tournois =t1;
-            // Requête pour récupérer les données podium
+            
             PreparedStatement pst;
             pst = con.prepareStatement("SELECT id_vainqueur, id_2eme, id_3eme FROM podium WHERE id_tournois = ?");
             pst.setLong(1, id_tournois);
@@ -92,13 +92,13 @@ public class Podium extends javax.swing.JFrame {
     }
 
     private String getNomJoueur(Utilisateur u, long id) throws SQLException {
-        PreparedStatement pst = con.prepareStatement("SELECT username FROM joueurs WHERE id = ?");
+        PreparedStatement pst = con.prepareStatement("SELECT username FROM joueurs WHERE id_tournois = ?");
         pst.setLong(1, id);
         ResultSet rs = pst.executeQuery();
         if (rs.next()) {
-            return rs.getString("nom");
+            return rs.getString("username");
         }
-        return "Joueur inconnu (#" + id + ")";
+        return "Joueur  (#" + id + ")";
     }
 
   

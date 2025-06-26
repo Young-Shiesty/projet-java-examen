@@ -423,7 +423,7 @@ String datefin = sdf.format(dateFinUtil);
         }
 
         if (player != 8 && player != 16) {
-            JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8 ou 16 .");
+            JOptionPane.showMessageDialog(this, "Le nombre de joueurs doit être 8  .");
             return;
         }
 
